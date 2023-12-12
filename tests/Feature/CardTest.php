@@ -10,12 +10,15 @@ class CardTest extends TestCase
 {
     public function test_post_new_card()
     {
-        $response = $this->postJson('/card', ['description' => 'DumpCard']);
+        $card = [
+            'tittle' => 'DumpTittle',
+            'content' => 'DumpDescription'
+        ];
+
+        $response = $this->postJson('/card', $card);
 
         $response
             ->assertStatus(201)
-            ->assertExactJson([
-                'created' => true,
-            ]);
+            ->assertJson($card);
     }
 }
