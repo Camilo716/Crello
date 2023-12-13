@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class CreateCardRequestTest extends TestCase
 {
-    public function test_passes_validation_with_required_data()
+    public function test_should_pass_with_valid_data()
     {
         $request = new CreateCardRequest();
         $validData = [             
@@ -24,7 +24,7 @@ class CreateCardRequestTest extends TestCase
     /**
      * @dataProvider provideInvalidData
      */
-    public function testInvalidData(array $invalidData)
+    public function test_should_fail_with_invalid_data(array $invalidData)
     {
         $request = new CreateCardRequest();
 

@@ -10,7 +10,7 @@ class CardTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function test_post_new_card()
+    public function test_client_post_new_card()
     {
         $card = [
             'tittle' => 'DumpTittle',
