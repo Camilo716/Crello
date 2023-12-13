@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class CardTest extends TestCase
 {
+    use RefreshDatabase, WithFaker;
+
     public function test_post_new_card()
     {
         $card = [

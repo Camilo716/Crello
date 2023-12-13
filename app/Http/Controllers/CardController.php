@@ -12,8 +12,9 @@ class CardController extends Controller
         $incomingFields = $request->validate([
             "tittle"=> "required",
             "content" => "required",
-        ]);
-
+        ]); 
+        var_dump($incomingFields);
+        var_dump($request);
         return Card::create($incomingFields);
     }
 }
