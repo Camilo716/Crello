@@ -10,7 +10,7 @@ class Card extends Model
     use HasFactory;
 
     protected $fillable = [
-        'tittle',
+        'title',
         'content'
     ];
 }

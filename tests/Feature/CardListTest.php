@@ -10,10 +10,10 @@ class CardListTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function test_example()
+    public function test_client_post_new_card_list()
     {
         $cardList = [
-            'title' => 'DumpTittle'
+            'title' => 'DumpTitle'
         ];
 
         $response = $this->postJson('/card-list', $cardList);

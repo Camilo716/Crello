@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\CardList;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -10,10 +11,10 @@ class CardTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
-    public function test_client_post_new_card()
+    public function test_client_add_new_card_to_an_existing_card_list()
     {
         $card = [
-            'tittle' => 'DumpTittle',
+            'title' => 'DumpTittle',
             'content' => 'DumpDescription'
         ];
 

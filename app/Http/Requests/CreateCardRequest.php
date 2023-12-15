@@ -14,7 +14,7 @@ class CreateCardRequest extends FormRequest
     public function rules() : array
     {
         return [
-            "tittle"=> "required",
+            "title"=> "required",
             "content" => "required",
         ];
     }

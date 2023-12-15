@@ -12,7 +12,7 @@ class CreateCardRequestTest extends TestCase
     {
         $request = new CreateCardRequest();
         $validData = [             
-            'tittle' => 'Valid Tittle',
+            'title' => 'Valid Tittle',
             'content' => 'Valid Content',
         ];
 
@@ -36,9 +36,9 @@ class CreateCardRequestTest extends TestCase
     public function provideInvalidData() : array
     {
         return [
-            [['tittle' => 'Valid tittle']], // Missing content
+            [['tittle' => 'Valid title']], // Missing content
 
-            [['content' => 'Valid content']] // Missing tittle
+            [['content' => 'Valid content']] // Missing title
         ];
     }
 
