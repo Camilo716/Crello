@@ -16,6 +16,7 @@ class CreateCardRequest extends FormRequest
         return [
             "title"=> "required",
             "content" => "required",
+            "card_list_id" => "required"
         ];
     }
 }

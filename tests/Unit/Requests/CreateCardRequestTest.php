@@ -14,6 +14,7 @@ class CreateCardRequestTest extends TestCase
         $validData = [             
             'title' => 'Valid Tittle',
             'content' => 'Valid Content',
+            'card_list_id' => 1
         ];
 
         $validator = Validator::make($validData, $request->rules());
@@ -36,9 +37,15 @@ class CreateCardRequestTest extends TestCase
     public function provideInvalidData() : array
     {
         return [
-            [['tittle' => 'Valid title']], // Missing content
+            [[  // Missing content
+                'tittle' => 'Valid title',
+                'card_list_id' => 1
+            ]], 
 
-            [['content' => 'Valid content']] // Missing title
+            [[  // Missing title
+                'content' => 'Valid content',
+                'card_list_id' => 1
+            ]],
         ];
     }
 

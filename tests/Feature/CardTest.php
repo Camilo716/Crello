@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\CardList;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -13,9 +14,13 @@ class CardTest extends TestCase
 
     public function test_client_add_new_card_to_an_existing_card_list()
     {
+        $cardList = CardList::factory()->create([
+            'title' => 'List title'
+        ]);
         $card = [
-            'title' => 'DumpTittle',
-            'content' => 'DumpDescription'
+            'title' => 'Card title',
+            'content' => 'Card content',
+            'card_list_id' => $cardList->id
         ];
 
         $response = $this->postJson('/card', $card);

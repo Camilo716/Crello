@@ -4,7 +4,6 @@ namespace Tests\Unit\Requests;
 
 use App\Http\Requests\CreateCardListRequest;
 use Tests\TestCase;
-use App\Http\Requests\CreateCardRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CreateCardListRequestTest extends TestCase

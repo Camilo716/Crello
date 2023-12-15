@@ -11,6 +11,7 @@ class Card extends Model
 
     protected $fillable = [
         'title',
-        'content'
+        'content',
+        'card_list_id'
     ];
 }
