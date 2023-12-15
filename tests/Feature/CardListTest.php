@@ -21,4 +21,10 @@ class CardListTest extends TestCase
         $response->assertStatus(201)->assertJson($cardList);
         $this->assertDatabaseHas('card_lists', $cardList);
     }
+
+    public function test_client_get_all_card_lists()
+    {
+        $response = $this->getJson('/card-list');
+        $response->assertStatus(200);
+    }
 }
