@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('board');
 });
 
 Route::post('/card', [CardController::class,'postCard']);
