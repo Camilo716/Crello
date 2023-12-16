@@ -10,7 +10,7 @@
     <h1>Board</h1>
     <h2>Prueba</h2>
     <div class='container'>
-        <div class='lists-container'>
+        <div class='listsContainer' id='listsContainer'>
             <!-- Lists will be dynamically added here -->
         </div>
         <div class='new-list'>

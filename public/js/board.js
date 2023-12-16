@@ -2061,6 +2061,29 @@ module.exports = {
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+var listsContainer = document.getElementById('listsContainer');
+var apiUrl = 'http://127.0.0.1:8000/card-list';
+function addNewList() {
+  var newList = document.createElement('div');
+  newList.className = 'list';
+  newList.innerHTML = '<h2> New List </h2>';
+  listsContainer.appendChild(newList);
+}
+function displayExistingLists() {
+  fetch(apiUrl).then(function (response) {
+    return response.json();
+  }).then(function (data) {
+    data.forEach(function (currentList) {
+      var newList = document.createElement('div');
+      newList.className = 'list';
+      newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
+      listsContainer.appendChild(newList);
+    });
+  })["catch"](function (error) {
+    return console.error('Error fetching lists:', error);
+  });
+}
+document.addEventListener('DOMContentLoaded', displayExistingLists);
 
 /***/ }),
 
