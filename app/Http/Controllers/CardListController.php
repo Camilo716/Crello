@@ -12,12 +12,14 @@ class CardListController extends Controller
     {
         $cardList = $request->validated();
 
-        return CardList::create($cardList);
+        CardList::create($cardList);
+
+        return response()->json(['message' => 'Card list created successfully', 'data' => $cardList], 201);
     }
 
     public function getAllCardLists(Request $request)
     {
-        $cards = CardList::all();
-        return $cards;
+        $cardLists = CardList::all();
+        return response()->json(['message' => 'Succesfully get', 'data' => $cardLists], 200);
     }
 }

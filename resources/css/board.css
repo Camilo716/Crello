@@ -91,7 +91,7 @@ nav {
     font-size: 18px;
     padding: 8px;
     color: #FFFFFF;
-    border-radius: 10px;
+    border-radius: 4px;
 } 
 
 .newListForm input[type=text]::placeholder {

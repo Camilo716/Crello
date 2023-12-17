@@ -18,7 +18,7 @@ class CardListTest extends TestCase
 
         $response = $this->postJson('/card-list', $cardList);
 
-        $response->assertStatus(201)->assertJson($cardList);
+        $response->assertStatus(201)->assertJson(['data' => $cardList]);
         $this->assertDatabaseHas('card_lists', $cardList);
     }
 
@@ -26,5 +26,6 @@ class CardListTest extends TestCase
     {
         $response = $this->getJson('/card-list');
         $response->assertStatus(200);
+        $response->assertJson(['data'=> []]);
     }
 }

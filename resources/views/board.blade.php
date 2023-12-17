@@ -25,7 +25,8 @@
         </div>
         <div class='newListContainer'>
             <form action="POST" class="newListForm">
-                <input type="text" placeholder="Enter list title..."></input>
+                @csrf
+                <input type="text" placeholder="Enter list title..." id="title"></input>
                 <button id="addNewList" class="addNewList" type="button">Add list</button>
             </form>
         </div>

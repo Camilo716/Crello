@@ -2063,29 +2063,49 @@ module.exports = {
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 var listsContainer = document.getElementById('listsContainer');
 var addNewListButton = document.getElementById('addNewList');
+var newListTitleInput = document.getElementById('title');
 var apiUrl = 'http://127.0.0.1:8000/card-list';
 function addNewList() {
-  var newList = document.createElement('div');
-  newList.className = 'list';
-  newList.innerHTML = '<h2> New List </h2>';
-  listsContainer.appendChild(newList);
+  var newListTitle = newListTitleInput.value;
+  fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: newListTitle
+    })
+  }).then(function (response) {
+    if (!response.ok) {
+      throw new Error("HTTP error! Status: ".concat(response.status));
+    }
+    return response.json();
+  }).then(function (response) {
+    console.log(response["data"]);
+    displayLists([response["data"]]);
+  })["catch"](function (error) {
+    return console.error('Error adding new list:', error);
+  });
 }
-function displayExistingLists() {
+function getExistingLists() {
   fetch(apiUrl).then(function (response) {
     return response.json();
-  }).then(function (data) {
-    data.forEach(function (currentList) {
-      var newList = document.createElement('div');
-      newList.className = 'list';
-      newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
-      listsContainer.appendChild(newList);
-    });
+  }).then(function (response) {
+    displayLists(response["data"]);
   })["catch"](function (error) {
     return console.error('Error fetching lists:', error);
   });
 }
+function displayLists(data) {
+  data.forEach(function (currentList) {
+    var newList = document.createElement('div');
+    newList.className = 'list';
+    newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
+    listsContainer.appendChild(newList);
+  });
+}
 addNewListButton.addEventListener('click', addNewList);
-document.addEventListener('DOMContentLoaded', displayExistingLists);
+document.addEventListener('DOMContentLoaded', getExistingLists);
 
 /***/ }),
 
