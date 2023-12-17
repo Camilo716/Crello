@@ -1,6 +1,8 @@
 require('./bootstrap');
 
 const listsContainer = document.getElementById('listsContainer');
+const addNewListButton = document.getElementById('addNewList');
+
 const apiUrl = 'http://127.0.0.1:8000/card-list'
 
 function addNewList()
@@ -28,5 +30,5 @@ function displayExistingLists()
 
 }
 
-
+addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', displayExistingLists);

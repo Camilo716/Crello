@@ -2062,6 +2062,7 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 var listsContainer = document.getElementById('listsContainer');
+var addNewListButton = document.getElementById('addNewList');
 var apiUrl = 'http://127.0.0.1:8000/card-list';
 function addNewList() {
   var newList = document.createElement('div');
@@ -2083,6 +2084,7 @@ function displayExistingLists() {
     return console.error('Error fetching lists:', error);
   });
 }
+addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', displayExistingLists);
 
 /***/ }),
