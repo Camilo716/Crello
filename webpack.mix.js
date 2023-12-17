@@ -15,7 +15,7 @@ mix.browserSync({
     proxy: 'http://127.0.0.1:8000'
 })
 
-mix.js('resources/js/board.js', 'public/js')
+mix.js('resources/js/main.js', 'public/js')
     .postCss('resources/css/board.css', 'public/css', [
         //
     ]);

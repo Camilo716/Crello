@@ -2054,16 +2054,6 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/app.js":
-/*!*****************************!*\
-  !*** ./resources/js/app.js ***!
-  \*****************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-/***/ }),
-
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -2097,6 +2087,75 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/cardList.js":
+/*!**********************************!*\
+  !*** ./resources/js/cardList.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+__webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+var listsContainer = document.getElementById('listsContainer');
+var addNewListButton = document.getElementById('addNewList');
+var newListTitleInput = document.getElementById('title');
+var apiUrl = 'http://127.0.0.1:8000/card-list';
+function addNewList() {
+  var newListTitle = newListTitleInput.value;
+  fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: newListTitle
+    })
+  }).then(function (response) {
+    if (!response.ok) {
+      throw new Error("HTTP error! Status: ".concat(response.status));
+    }
+    return response.json();
+  }).then(function (response) {
+    displayLists([response["data"]]);
+  })["catch"](function (error) {
+    return console.error('Error adding new list:', error);
+  });
+}
+function getExistingLists() {
+  fetch(apiUrl).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    displayLists(response["data"]);
+  })["catch"](function (error) {
+    return console.error('Error fetching lists:', error);
+  });
+}
+function displayLists(data) {
+  data.forEach(function (currentList) {
+    var newList = document.createElement('div');
+    newList.className = 'list';
+    newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
+    listsContainer.appendChild(newList);
+  });
+}
+addNewListButton.addEventListener('click', addNewList);
+document.addEventListener('DOMContentLoaded', getExistingLists);
+
+/***/ }),
+
+/***/ "./resources/js/main.js":
+/*!******************************!*\
+  !*** ./resources/js/main.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _cardList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cardList */ "./resources/js/cardList.js");
+/* harmony import */ var _cardList__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cardList__WEBPACK_IMPORTED_MODULE_0__);
+
+
 
 /***/ }),
 
@@ -19595,6 +19654,30 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -19640,7 +19723,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"/js/app": 0,
+/******/ 			"/js/main": 0,
 /******/ 			"css/board": 0
 /******/ 		};
 /******/ 		
@@ -19691,7 +19774,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/board"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/board"], () => (__webpack_require__("./resources/js/main.js")))
 /******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/board"], () => (__webpack_require__("./resources/css/board.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
