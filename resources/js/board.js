@@ -23,7 +23,6 @@ function addNewList()
             return response.json();
         })
         .then(response => {
-            console.log(response["data"])
             displayLists([response["data"]]);
         })
         .catch(error => console.error('Error adding new list:', error));

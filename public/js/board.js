@@ -2081,7 +2081,6 @@ function addNewList() {
     }
     return response.json();
   }).then(function (response) {
-    console.log(response["data"]);
     displayLists([response["data"]]);
   })["catch"](function (error) {
     return console.error('Error adding new list:', error);
