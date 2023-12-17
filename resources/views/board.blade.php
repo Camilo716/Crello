@@ -23,10 +23,10 @@
         <div class='listsContainer' id='listsContainer'>
             <!-- Lists will be dynamically added here -->
         </div>
-        <div class='new-list'>
-            <form action="POST">
+        <div class='newListContainer'>
+            <form action="POST" class="newListForm">
                 <input type="text" placeholder="Enter list title..."></input>
-                <button id="addNewList" type="button">Add another list</button>
+                <button id="addNewList" class="addNewList" type="button">Add list</button>
             </form>
         </div>
     </div>

@@ -28,11 +28,15 @@ h2 {
     color: #B6C2CF
 }
 
+body {
+    background-color: #070707;
+}
+
 nav {
     display: flex;
     align-items: center;
     height: 5vh;
-    background-color: black;
+    background-color: #060606;
 }
 
 .boards {
@@ -43,10 +47,6 @@ nav {
     justify-content: left;
 }
 
-
-body {
-    background-color: #060606;
-}
 
 .container {
     display: flex;
@@ -65,11 +65,53 @@ body {
     justify-content: space-between;
     min-width: 250px;
     background-color: #101204;
-    box-shadow: initial;
     margin: 30px 20px;
-    border-radius: 1%;
+    border-radius: 10px;
 }
 
-.new-list {
-    margin: 30px;
+.newListContainer {
+    margin: 30px 20px;
+}
+
+.newListForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    min-width: 250px;
+    background-color: #101204;
+    gap: 5px;
+    border-radius: 10px;
+}
+
+.newListForm input {
+    border-radius: 1%;
+    background-color: #3F3F3F;
+    border: 2px solid transparent;
+    font-size: 18px;
+    padding: 8px;
+    color: #FFFFFF;
+    border-radius: 10px;
+} 
+
+.newListForm input[type=text]::placeholder {
+    color: #FFFFFF
+}
+
+.newListForm input[type=text]:focus {
+    background-color: transparent;
+    transition: 0.2s ease;
+    outline: 0 transparent;
+    border: 2px solid #85B8FF;
+    caret-color: #FFFFFF;
+}
+
+.addNewList {
+    font-size: 16px;
+    height: 4vh;
+    width: 40%;
+    background-color: #579DFF;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
 }
