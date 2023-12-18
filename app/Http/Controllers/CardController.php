@@ -14,4 +14,12 @@ class CardController extends Controller
 
         return Card::create($incomingFields);
     }
+
+    public function getByList(Request $request)
+    {
+        $listId = $request->query('card_list_id');
+        $cards = Card::where('card_list_id', '=', $listId)->get();
+
+        return response()->json(['message' => 'Succesfully get cards by list', 'data' => $cards], 200);
+    }
 }

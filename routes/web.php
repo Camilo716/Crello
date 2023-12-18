@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::post('/card', [CardController::class,'postCard']);
+Route::get('/card/get-by-list', [CardController::class,'getByList']);
 
 Route::post('/card-list', [CardListController::class,'postCardList']);
 Route::get('/card-list', [CardListController::class,'getAllCardLists']);
