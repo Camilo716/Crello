@@ -51,6 +51,8 @@ function displayLists(lists)
         cardsContainer.className = 'cardsContainer';
         newList.appendChild(cardsContainer);
         fetchCardsByList(currentList["id"], cardsContainer);
+
+        displayAddNewCardElement(currentList["id"], newList );
     });
 }
 
@@ -74,6 +76,17 @@ function displayCards(cards, cardsContainer)
         newCard.innerHTML = `<h3>${currentCard.title}</h3>`
         cardsContainer.appendChild(newCard);
     });
+}
+
+function displayAddNewCardElement(currentListId, listElement)
+{
+    let newCardForm = document.createElement('form');
+    newCardForm.className = 'newCardForm';
+    newCardForm.innerHTML = `
+        <input type="text" placeholder="Enter card title..." id="cardTitle-${currentListId}">
+        <button class="addNewCard" type="button" onclick="addNewCard(${currentListId})">Add Card</button>
+    `;
+    listElement.appendChild(newCardForm);
 }
 
 addNewListButton.addEventListener('click', addNewList);

@@ -2142,6 +2142,7 @@ function displayLists(lists) {
     cardsContainer.className = 'cardsContainer';
     newList.appendChild(cardsContainer);
     fetchCardsByList(currentList["id"], cardsContainer);
+    displayAddNewCardElement(currentList["id"], newList);
   });
 }
 function fetchCardsByList(listId, cardsContainer) {
@@ -2161,6 +2162,12 @@ function displayCards(cards, cardsContainer) {
     newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
     cardsContainer.appendChild(newCard);
   });
+}
+function displayAddNewCardElement(currentListId, listElement) {
+  var newCardForm = document.createElement('form');
+  newCardForm.className = 'newCardForm';
+  newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"cardTitle-".concat(currentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" onclick=\"addNewCard(").concat(currentListId, ")\">Add Card</button>\n    ");
+  listElement.appendChild(newCardForm);
 }
 addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', getExistingLists);

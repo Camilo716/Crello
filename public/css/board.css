@@ -119,8 +119,8 @@ nav {
     border: none;
     cursor: pointer;
     border-radius: 4px;
+    color: #1D2125
 }
-
 
 .cardsContainer {
     height: auto;
@@ -129,13 +129,55 @@ nav {
     justify-content: space-between;
     gap: 10px;
     margin: 10px;
-    
 }
 
 .card {
     color: #FFFFFF;
     background-color: #22272B;
-    padding: 20px;
+    padding: 15px;
     border-radius: 10px;
+}
+
+.newCardForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0px 10px;
+    background-color: #101204;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+.newCardForm input {
+    border-radius: 1%;
+    background-color: #22272B;
+    border: 2px solid transparent;
+    font-size: 17px;
+    padding: 8px;
+    color: #FFFFFF;
+    border-radius: 10px;
+} 
+
+.newCardForm input[type=text]::placeholder {
+    color: #6b6b6b
+}
+
+.newCardForm input[type=text]:focus {
+    background-color: transparent;
+    transition: 0.2s ease;
+    outline: 0 transparent;
+    border: 2px solid #85B8FF;
+    caret-color: #FFFFFF;
+}
+
+.addNewCard {
+    font-size: 15px;
+    background-color: #579DFF;
+    height: 3vh;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #1D2125;
 }
 
