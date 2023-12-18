@@ -2100,10 +2100,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 var listsContainer = document.getElementById('listsContainer');
 var addNewListButton = document.getElementById('addNewList');
 var newListTitleInput = document.getElementById('title');
-var apiUrl = 'http://127.0.0.1:8000/card-list';
+var baseApiUrl = 'http://127.0.0.1:8000/';
 function addNewList() {
   var newListTitle = newListTitleInput.value;
-  fetch(apiUrl, {
+  fetch(baseApiUrl + 'card-list', {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -2123,7 +2123,7 @@ function addNewList() {
   });
 }
 function getExistingLists() {
-  fetch(apiUrl).then(function (response) {
+  fetch(baseApiUrl + 'card-list').then(function (response) {
     return response.json();
   }).then(function (response) {
     displayLists(response["data"]);
@@ -2131,12 +2131,34 @@ function getExistingLists() {
     return console.error('Error fetching lists:', error);
   });
 }
-function displayLists(data) {
-  data.forEach(function (currentList) {
+function displayLists(lists) {
+  lists.forEach(function (currentList) {
     var newList = document.createElement('div');
     newList.className = 'list';
     newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
     listsContainer.appendChild(newList);
+    var cardsContainer = document.createElement('div');
+    cardsContainer.className = 'cardsContainer';
+    newList.appendChild(cardsContainer);
+    fetchCardsByList(currentList["id"], cardsContainer);
+  });
+}
+function fetchCardsByList(listId, cardsContainer) {
+  var apiUrl = baseApiUrl + "card/get-by-list?card_list_id=".concat(listId);
+  fetch(apiUrl).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    displayCards(response["data"], cardsContainer);
+  })["catch"](function (error) {
+    return console.error('Error fetching cards:', error);
+  });
+}
+function displayCards(cards, cardsContainer) {
+  cards.forEach(function (currentCard) {
+    var newCard = document.createElement('div');
+    newCard.className = 'card';
+    newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
+    cardsContainer.appendChild(newCard);
   });
 }
 addNewListButton.addEventListener('click', addNewList);

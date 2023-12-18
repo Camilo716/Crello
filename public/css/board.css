@@ -62,7 +62,8 @@ nav {
 
 .list {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    justify-content: flex-start;
     min-width: 250px;
     background-color: #101204;
     margin: 30px 20px;
@@ -118,5 +119,23 @@ nav {
     border: none;
     cursor: pointer;
     border-radius: 4px;
+}
+
+
+.cardsContainer {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 10px;
+    
+}
+
+.card {
+    color: #FFFFFF;
+    background-color: #22272B;
+    padding: 20px;
+    border-radius: 10px;
 }
 
