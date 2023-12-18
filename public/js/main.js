@@ -2118,6 +2118,7 @@ function addNewList() {
     return response.json();
   }).then(function (response) {
     displayLists([response["data"]]);
+    newListTitleInput.value = '';
   })["catch"](function (error) {
     return console.error('Error adding new list:', error);
   });

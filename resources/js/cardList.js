@@ -24,6 +24,7 @@ function addNewList()
         })
         .then(response => {
             displayLists([response["data"]]);
+            newListTitleInput.value = '';
         })
         .catch(error => console.error('Error adding new list:', error));
 }
