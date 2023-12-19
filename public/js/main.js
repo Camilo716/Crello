@@ -2142,7 +2142,7 @@ function displayLists(lists) {
     cardsContainer.className = 'cardsContainer';
     newList.appendChild(cardsContainer);
     fetchCardsByList(currentList["id"], cardsContainer);
-    displayAddNewCardElement(currentList["id"], newList);
+    displayAddNewCardForm(currentList["id"], newList);
   });
 }
 function fetchCardsByList(listId, cardsContainer) {
@@ -2163,11 +2163,40 @@ function displayCards(cards, cardsContainer) {
     cardsContainer.appendChild(newCard);
   });
 }
-function displayAddNewCardElement(currentListId, listElement) {
+function displayAddNewCardForm(currentListId, listElement) {
   var newCardForm = document.createElement('form');
   newCardForm.className = 'newCardForm';
-  newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"cardTitle-".concat(currentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" onclick=\"addNewCard(").concat(currentListId, ")\">Add Card</button>\n    ");
+  newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(currentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(currentListId, "\">Add Card</button>\n    ");
   listElement.appendChild(newCardForm);
+  var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
+  addCardButton.addEventListener('click', function () {
+    return addNewCard(currentListId);
+  });
+}
+function addNewCard(listId) {
+  var newCardTitleInput = document.getElementById("addCardTitleInput-".concat(listId));
+  var newCardTitle = newCardTitleInput.value;
+  fetch(baseApiUrl + 'card', {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      title: newCardTitle,
+      content: "",
+      card_list_id: listId
+    })
+  }).then(function (response) {
+    if (!response.ok) {
+      throw new Error("HTTP error! Status: ".concat(response.status));
+    }
+    return response.json();
+  }).then(function (response) {
+    displayCards([response["data"]]);
+    newCardTitle.value = '';
+  })["catch"](function (error) {
+    return console.error('Error adding new list:', error);
+  });
 }
 addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', getExistingLists);
