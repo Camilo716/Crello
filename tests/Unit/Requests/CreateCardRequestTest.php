@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CreateCardRequestTest extends TestCase
 {
-    public function test_should_pass_with_valid_data()
+    /**
+     * @dataProvider provideValidData
+     */
+    public function test_should_pass_with_valid_data(array $validData)
     {
         $request = new CreateCardRequest();
-        $validData = [             
-            'title' => 'Valid Tittle',
-            'content' => 'Valid Content',
-            'card_list_id' => 1
-        ];
 
         $validator = Validator::make($validData, $request->rules());
 
@@ -34,6 +32,23 @@ class CreateCardRequestTest extends TestCase
         $this->assertFalse($validator->passes());
     }
 
+    public function provideValidData() : array
+    {
+        return [
+            [[        
+                'title' => 'Valid Title',
+                'content' => 'Valid Content',
+                'card_list_id' => 1
+            ]], 
+
+            [[        
+                'title' => 'Valid Title',
+                'content' => '',
+                'card_list_id' => 1
+            ]]
+        ];
+    }
+
     public function provideInvalidData() : array
     {
         return [
@@ -45,7 +60,7 @@ class CreateCardRequestTest extends TestCase
             [[  // Missing title
                 'content' => 'Valid content',
                 'card_list_id' => 1
-            ]],
+            ]]
         ];
     }
 
