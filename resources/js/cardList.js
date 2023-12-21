@@ -45,13 +45,13 @@ function addNewCard(listId) {
         })
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
         return response.json();
     })
     .then(response => {
-        displayCards([response["data"]]);
+        console.log(response.data)
+        console.log(listId)
+        displayCards([response.data], listId);
         newCardTitle.value = '';
     })
     .catch(error => console.error('Error adding new list:', error));
@@ -62,7 +62,7 @@ function getExistingLists()
     fetch(baseApiUrl+'card-list')
         .then(response => response.json())
         .then(response => {
-            displayLists(response["data"]);
+            displayLists(response.data);
         })
         .catch(error => console.error('Error fetching lists:', error))
 }
@@ -75,34 +75,36 @@ function displayLists(lists)
         newList.innerHTML = `<h2>${currentList.title}</h2>`;
         listsContainer.appendChild(newList);
 
-        let cardsContainer = document.createElement('div');
-        cardsContainer.className = 'cardsContainer';
-        newList.appendChild(cardsContainer);
-        fetchCardsByList(currentList["id"], cardsContainer);
+        let cardsContainerElement = document.createElement('div');
+        cardsContainerElement.className = 'cardsContainer';
+        cardsContainerElement.id = `cardsContainer-${currentList.id}`
+        newList.appendChild(cardsContainerElement);
+        fetchCardsByList(currentList.id);
 
-        displayAddNewCardForm(currentList["id"], newList);
+        displayAddNewCardForm(currentList.id, newList);
     });
 }
 
-function fetchCardsByList(listId, cardsContainer)
+function fetchCardsByList(listId)
 {
     const apiUrl =  baseApiUrl+`card/get-by-list?card_list_id=${listId}`;
 
     fetch(apiUrl)
         .then(response => response.json())
         .then(response => {
-            displayCards(response["data"], cardsContainer);
+            displayCards(response.data, listId);
         })
         .catch(error => console.error('Error fetching cards:', error))
 }
 
-function displayCards(cards, cardsContainer)
+function displayCards(cards, parentcardContainerId)
 {
+    const cardsContainerElement = document.getElementById(`cardsContainer-${parentcardContainerId}`)
     cards.forEach(currentCard => {
         let newCard = document.createElement('div');
         newCard.className = 'card';
         newCard.innerHTML = `<h3>${currentCard.title}</h3>`
-        cardsContainer.appendChild(newCard);
+        cardsContainerElement.appendChild(newCard);
     });
 }
 

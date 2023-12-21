@@ -2138,12 +2138,12 @@ function addNewCard(listId) {
       card_list_id: listId
     })
   }).then(function (response) {
-    if (!response.ok) {
-      throw new Error("HTTP error! Status: ".concat(response.status));
-    }
+    if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
     return response.json();
   }).then(function (response) {
-    displayCards([response["data"]]);
+    console.log(response.data);
+    console.log(listId);
+    displayCards([response.data], listId);
     newCardTitle.value = '';
   })["catch"](function (error) {
     return console.error('Error adding new list:', error);
@@ -2153,7 +2153,7 @@ function getExistingLists() {
   fetch(baseApiUrl + 'card-list').then(function (response) {
     return response.json();
   }).then(function (response) {
-    displayLists(response["data"]);
+    displayLists(response.data);
   })["catch"](function (error) {
     return console.error('Error fetching lists:', error);
   });
@@ -2164,29 +2164,31 @@ function displayLists(lists) {
     newList.className = 'list';
     newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
     listsContainer.appendChild(newList);
-    var cardsContainer = document.createElement('div');
-    cardsContainer.className = 'cardsContainer';
-    newList.appendChild(cardsContainer);
-    fetchCardsByList(currentList["id"], cardsContainer);
-    displayAddNewCardForm(currentList["id"], newList);
+    var cardsContainerElement = document.createElement('div');
+    cardsContainerElement.className = 'cardsContainer';
+    cardsContainerElement.id = "cardsContainer-".concat(currentList.id);
+    newList.appendChild(cardsContainerElement);
+    fetchCardsByList(currentList.id);
+    displayAddNewCardForm(currentList.id, newList);
   });
 }
-function fetchCardsByList(listId, cardsContainer) {
+function fetchCardsByList(listId) {
   var apiUrl = baseApiUrl + "card/get-by-list?card_list_id=".concat(listId);
   fetch(apiUrl).then(function (response) {
     return response.json();
   }).then(function (response) {
-    displayCards(response["data"], cardsContainer);
+    displayCards(response.data, listId);
   })["catch"](function (error) {
     return console.error('Error fetching cards:', error);
   });
 }
-function displayCards(cards, cardsContainer) {
+function displayCards(cards, parentcardContainerId) {
+  var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
   cards.forEach(function (currentCard) {
     var newCard = document.createElement('div');
     newCard.className = 'card';
     newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
-    cardsContainer.appendChild(newCard);
+    cardsContainerElement.appendChild(newCard);
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {

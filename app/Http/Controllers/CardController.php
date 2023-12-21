@@ -10,9 +10,14 @@ class CardController extends Controller
 {
     public function postCard(CreateCardRequest $request)
     {
-        $incomingFields = $request->validated(); 
+        $card = $request->validated();
 
-        return Card::create($incomingFields);
+        $cardResponse = Card::create($card);
+
+        return response()->json([
+            'message' => 'Card list created successfully',
+            'data' => $cardResponse->toArray()],
+        201);
     }
 
     public function getByList(Request $request)
