@@ -16,14 +16,11 @@ function addNewList() {
         body: JSON.stringify({ title: newListTitle })
     })
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             return response.json();
         })
         .then(response => {
-            console.log(response["data"]);
-            displayLists([response["data"]]);
+            displayLists(response.data);
             newListTitleInput.value = '';
         })
         .catch(error => console.error('Error adding new list:', error));
@@ -31,7 +28,6 @@ function addNewList() {
 
 function addNewCard(listId) {
     const newCardTitleInput = document.getElementById(`addCardTitleInput-${listId}`);
-    const newCardTitle = newCardTitleInput.value 
 
     fetch(baseApiUrl + 'card', { 
         method: "POST",
@@ -39,7 +35,7 @@ function addNewCard(listId) {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({ 
-            title: newCardTitle,
+            title: newCardTitleInput.value,
             content: "",
             card_list_id: listId
         })
@@ -49,10 +45,8 @@ function addNewCard(listId) {
         return response.json();
     })
     .then(response => {
-        console.log(response.data)
-        console.log(listId)
         displayCards([response.data], listId);
-        newCardTitle.value = '';
+        newCardTitleInput.value = '';
     })
     .catch(error => console.error('Error adding new list:', error));
 }

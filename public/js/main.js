@@ -2112,13 +2112,10 @@ function addNewList() {
       title: newListTitle
     })
   }).then(function (response) {
-    if (!response.ok) {
-      throw new Error("HTTP error! Status: ".concat(response.status));
-    }
+    if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
     return response.json();
   }).then(function (response) {
-    console.log(response["data"]);
-    displayLists([response["data"]]);
+    displayLists(response.data);
     newListTitleInput.value = '';
   })["catch"](function (error) {
     return console.error('Error adding new list:', error);
@@ -2126,14 +2123,13 @@ function addNewList() {
 }
 function addNewCard(listId) {
   var newCardTitleInput = document.getElementById("addCardTitleInput-".concat(listId));
-  var newCardTitle = newCardTitleInput.value;
   fetch(baseApiUrl + 'card', {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      title: newCardTitle,
+      title: newCardTitleInput.value,
       content: "",
       card_list_id: listId
     })
@@ -2141,10 +2137,8 @@ function addNewCard(listId) {
     if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
     return response.json();
   }).then(function (response) {
-    console.log(response.data);
-    console.log(listId);
     displayCards([response.data], listId);
-    newCardTitle.value = '';
+    newCardTitleInput.value = '';
   })["catch"](function (error) {
     return console.error('Error adding new list:', error);
   });
