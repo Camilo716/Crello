@@ -22,10 +22,39 @@ function addNewList() {
             return response.json();
         })
         .then(response => {
+            console.log(response["data"]);
             displayLists([response["data"]]);
             newListTitleInput.value = '';
         })
         .catch(error => console.error('Error adding new list:', error));
+}
+
+function addNewCard(listId) {
+    const newCardTitleInput = document.getElementById(`addCardTitleInput-${listId}`);
+    const newCardTitle = newCardTitleInput.value 
+
+    fetch(baseApiUrl + 'card', { 
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ 
+            title: newCardTitle,
+            content: "",
+            card_list_id: listId
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(response => {
+        displayCards([response["data"]]);
+        newCardTitle.value = '';
+    })
+    .catch(error => console.error('Error adding new list:', error));
 }
 
 function getExistingLists()
@@ -88,34 +117,6 @@ function displayAddNewCardForm(currentListId, listElement)
     listElement.appendChild(newCardForm);
     let addCardButton = document.getElementById(`addCardButton-${currentListId}`);
     addCardButton.addEventListener('click', () => addNewCard(currentListId));
-}
-
-function addNewCard(listId) {
-    const newCardTitleInput = document.getElementById(`addCardTitleInput-${listId}`);
-    const newCardTitle = newCardTitleInput.value 
-
-    fetch(baseApiUrl + 'card', { 
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ 
-            title: newCardTitle,
-            content: "",
-            card_list_id: listId
-        })
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(response => {
-        displayCards([response["data"]]);
-        newCardTitle.value = '';
-    })
-    .catch(error => console.error('Error adding new list:', error));
 }
 
 addNewListButton.addEventListener('click', addNewList);
