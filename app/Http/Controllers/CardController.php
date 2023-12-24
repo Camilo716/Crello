@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CardController extends Controller
 {
-    public function postCard(CreateCardRequest $request)
+    public function store(CreateCardRequest $request)
     {
         $card = $request->validated();
 

@@ -19,8 +19,8 @@ Route::get('/', function () {
     return view('board');
 });
 
-Route::post('/card', [CardController::class,'postCard']);
+Route::post('/card', [CardController::class,'store']);
 Route::get('/card/get-by-list', [CardController::class,'getByList']);
 
-Route::post('/card-list', [CardListController::class,'postCardList']);
-Route::get('/card-list', [CardListController::class,'getAllCardLists']);
+Route::get('/card-list', [CardListController::class,'index']);
+Route::post('/card-list', [CardListController::class,'store']);

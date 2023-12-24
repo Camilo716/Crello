@@ -8,7 +8,16 @@ use Illuminate\Http\Request;
 
 class CardListController extends Controller
 {
-    public function postCardList(CreateCardListRequest $request)
+    public function index(Request $request)
+    {
+        $cardLists = CardList::all();
+        return response()->json([
+            'message' => 'Succesfully get',
+            'data' => $cardLists],
+        200);
+    }
+
+    public function store(CreateCardListRequest $request)
     {
         $cardList = $request->validated();
 
@@ -18,11 +27,5 @@ class CardListController extends Controller
             'message' => 'Card list created successfully',
             'data' => $cardListResponse->toArray()],
         201);
-    }
-
-    public function getAllCardLists(Request $request)
-    {
-        $cardLists = CardList::all();
-        return response()->json(['message' => 'Succesfully get', 'data' => $cardLists], 200);
     }
 }
