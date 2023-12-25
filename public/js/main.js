@@ -2185,9 +2185,7 @@ function displayLists(lists) {
   lists.forEach(function (currentList) {
     var newList = _createListElement(currentList);
     listsContainer.appendChild(newList);
-    var cardsContainerElement = document.createElement('div');
-    cardsContainerElement.className = 'cardsContainer';
-    cardsContainerElement.id = "cardsContainer-".concat(currentList.id);
+    var cardsContainerElement = _createCardsContainerElement(currentList.id);
     newList.appendChild(cardsContainerElement);
     fetchCardsByList(currentList.id);
     displayAddNewCardForm(currentList.id, newList);
@@ -2234,6 +2232,12 @@ function _createCardElement(currentCard) {
   newCard.className = 'card';
   newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
   return newCard;
+}
+function _createCardsContainerElement(currentListId) {
+  var cardsContainerElement = document.createElement('div');
+  cardsContainerElement.className = 'cardsContainer';
+  cardsContainerElement.id = "cardsContainer-".concat(currentListId);
+  return cardsContainerElement;
 }
 addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', getExistingLists);

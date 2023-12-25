@@ -64,12 +64,10 @@ function displayLists(lists) {
         let newList = _createListElement(currentList);
         listsContainer.appendChild(newList);
 
-        let cardsContainerElement = document.createElement('div');
-        cardsContainerElement.className = 'cardsContainer';
-        cardsContainerElement.id = `cardsContainer-${currentList.id}`
+        let cardsContainerElement = _createCardsContainerElement(currentList.id);
         newList.appendChild(cardsContainerElement);
-        fetchCardsByList(currentList.id);
 
+        fetchCardsByList(currentList.id);
         displayAddNewCardForm(currentList.id, newList);
     });
 }
@@ -122,6 +120,13 @@ function _createCardElement(currentCard) {
     newCard.className = 'card';
     newCard.innerHTML = `<h3>${currentCard.title}</h3>`;
     return newCard;
+}
+
+function _createCardsContainerElement(currentListId) {
+    let cardsContainerElement = document.createElement('div');
+    cardsContainerElement.className = 'cardsContainer';
+    cardsContainerElement.id = `cardsContainer-${currentListId}`
+    return cardsContainerElement;
 }
 
 addNewListButton.addEventListener('click', addNewList);
