@@ -2207,25 +2207,29 @@ function fetchCardsByList(listId) {
 function displayCards(cards, parentcardContainerId) {
   var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
   cards.forEach(function (currentCard) {
-    var newCard = document.createElement('div');
-    newCard.className = 'card';
-    newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
+    var newCard = _createCardElement(currentCard);
     cardsContainerElement.appendChild(newCard);
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = _getAddNewCardForm(currentListId);
+  var newCardForm = _createAddNewCardFormElement(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener('click', function () {
     return addNewCard(currentListId);
   });
 }
-function _getAddNewCardForm(parentListId) {
+function _createAddNewCardFormElement(parentListId) {
   var newCardForm = document.createElement('form');
   newCardForm.className = 'newCardForm';
   newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
   return newCardForm;
+}
+function _createCardElement(currentCard) {
+  var newCard = document.createElement('div');
+  newCard.className = 'card';
+  newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
+  return newCard;
 }
 addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', getExistingLists);

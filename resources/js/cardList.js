@@ -50,8 +50,7 @@ function addNewCard(listId) {
     .catch(error => console.error('Error adding new list:', error));
 }
 
-function getExistingLists()
-{
+function getExistingLists() {
     fetch(getCardListApiUrl())
         .then(response => response.json())
         .then(response => {
@@ -60,8 +59,7 @@ function getExistingLists()
         .catch(error => console.error('Error fetching lists:', error))
 }
 
-function displayLists(lists)
-{
+function displayLists(lists) {
     lists.forEach(currentList => {
         let newList = document.createElement('div');
         newList.className = 'list';
@@ -78,8 +76,7 @@ function displayLists(lists)
     });
 }
 
-function fetchCardsByList(listId)
-{
+function fetchCardsByList(listId) {
     fetch(getCardsByListApiUrl(listId))
         .then(response => response.json())
         .then(response => {
@@ -88,27 +85,22 @@ function fetchCardsByList(listId)
         .catch(error => console.error('Error fetching cards:', error))
 }
 
-function displayCards(cards, parentcardContainerId)
-{
+function displayCards(cards, parentcardContainerId) {
     const cardsContainerElement = document.getElementById(`cardsContainer-${parentcardContainerId}`)
     cards.forEach(currentCard => {
-        let newCard = document.createElement('div');
-        newCard.className = 'card';
-        newCard.innerHTML = `<h3>${currentCard.title}</h3>`
+        let newCard = _createCardElement(currentCard);
         cardsContainerElement.appendChild(newCard);
     });
 }
 
-function displayAddNewCardForm(currentListId, listElement)
-{
-    let newCardForm =  _getAddNewCardForm(currentListId);
+function displayAddNewCardForm(currentListId, listElement) {
+    let newCardForm =  _createAddNewCardFormElement(currentListId);
     listElement.appendChild(newCardForm);
     let addCardButton = document.getElementById(`addCardButton-${currentListId}`);
     addCardButton.addEventListener('click', () => addNewCard(currentListId));
 }
 
-function _getAddNewCardForm(parentListId)
-{
+function _createAddNewCardFormElement(parentListId) {
     let newCardForm = document.createElement('form');
     newCardForm.className = 'newCardForm';
 
@@ -118,6 +110,13 @@ function _getAddNewCardForm(parentListId)
     `;
 
     return newCardForm;
+}
+
+function _createCardElement(currentCard) {
+    let newCard = document.createElement('div');
+    newCard.className = 'card';
+    newCard.innerHTML = `<h3>${currentCard.title}</h3>`;
+    return newCard;
 }
 
 addNewListButton.addEventListener('click', addNewList);
