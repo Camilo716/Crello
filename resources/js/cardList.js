@@ -61,9 +61,7 @@ function getExistingLists() {
 
 function displayLists(lists) {
     lists.forEach(currentList => {
-        let newList = document.createElement('div');
-        newList.className = 'list';
-        newList.innerHTML = `<h2>${currentList.title}</h2>`;
+        let newList = _createListElement(currentList);
         listsContainer.appendChild(newList);
 
         let cardsContainerElement = document.createElement('div');
@@ -110,6 +108,13 @@ function _createAddNewCardFormElement(parentListId) {
     `;
 
     return newCardForm;
+}
+
+function _createListElement(currentList) {
+    let newList = document.createElement('div');
+    newList.className = 'list';
+    newList.innerHTML = `<h2>${currentList.title}</h2>`;
+    return newList;
 }
 
 function _createCardElement(currentCard) {

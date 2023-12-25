@@ -2183,9 +2183,7 @@ function getExistingLists() {
 }
 function displayLists(lists) {
   lists.forEach(function (currentList) {
-    var newList = document.createElement('div');
-    newList.className = 'list';
-    newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
+    var newList = _createListElement(currentList);
     listsContainer.appendChild(newList);
     var cardsContainerElement = document.createElement('div');
     cardsContainerElement.className = 'cardsContainer';
@@ -2224,6 +2222,12 @@ function _createAddNewCardFormElement(parentListId) {
   newCardForm.className = 'newCardForm';
   newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
   return newCardForm;
+}
+function _createListElement(currentList) {
+  var newList = document.createElement('div');
+  newList.className = 'list';
+  newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
+  return newList;
 }
 function _createCardElement(currentCard) {
   var newCard = document.createElement('div');
