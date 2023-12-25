@@ -135,13 +135,13 @@ function _createListElement(currentList) {
 }
 
 function _createCardElement(currentCard) {
-    let newCard = document.createElement('div');
-    newCard.className = 'card';
-    newCard.id = `card-${currentCard.id}`;
+    let newCardElement = document.createElement('div');
+    newCardElement.className = 'card';
+    newCardElement.id = `card-${currentCard.id}`;
 
     let cardTitle = document.createElement('h3');
     cardTitle.textContent = currentCard.title;
-    newCard.appendChild(cardTitle);
+    newCardElement.appendChild(cardTitle);
 
     let deleteButton = document.createElement('button');
     deleteButton.className = 'deleteCardButton';
@@ -151,16 +151,40 @@ function _createCardElement(currentCard) {
     deleteButton.appendChild(deleteIcon);
 
     deleteButton.addEventListener('click', () => deleteCard(currentCard.id));
-    newCard.appendChild(deleteButton)
+    newCardElement.appendChild(deleteButton)
 
-    return newCard;
+    _makeCardDraggable(newCardElement);
+
+    return newCardElement;
 }
 
 function _createCardsContainerElement(currentListId) {
     let cardsContainerElement = document.createElement('div');
     cardsContainerElement.className = 'cardsContainer';
     cardsContainerElement.id = `cardsContainer-${currentListId}`
+
+    _makeCardsContainerDroppable(cardsContainerElement);
+
     return cardsContainerElement;
+}
+
+function _makeCardDraggable(cardElement) {
+    cardElement.draggable = true;
+
+    cardElement.addEventListener('dragstart', () => {
+        cardElement.classList.add('dragging');
+    });
+
+    cardElement.addEventListener('dragend', () => {
+        cardElement.classList.remove('dragging');
+    });
+}
+
+function _makeCardsContainerDroppable(cardContainerElement) {
+    cardContainerElement.addEventListener('dragover', () => {
+        const draggable = document.querySelector('.dragging');
+        cardContainerElement.appendChild(draggable);
+    })
 }
 
 addNewListButton.addEventListener('click', addNewList);
