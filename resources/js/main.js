@@ -1,6 +1,6 @@
 require('./bootstrap');
 
-import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl, getCardsByIdApiUrl  } from './apiConfig';
+import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl, getCardsByIdApiUrl, getPatchParentListApiUrl } from './apiConfig';
 
 const listsContainer = document.getElementById('listsContainer');
 const addNewListButton = document.getElementById('addNewList');
@@ -42,29 +42,29 @@ function addNewCard(listId) {
             card_list_id: listId
         })
     })
-    .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        return response.json();
-    })
-    .then(response => {
-        displayCards([response.data], listId);
-        newCardTitleInput.value = '';
-    })
-    .catch(error => console.error('Error adding new list:', error));
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            return response.json();
+        })
+        .then(response => {
+            displayCards([response.data], listId);
+            newCardTitleInput.value = '';
+        })
+        .catch(error => console.error('Error adding new list:', error));
 }
 
 function deleteCard(cardId) {
     fetch(getCardsByIdApiUrl(cardId), { 
         method: "DELETE"
     })
-    .then(response => {
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const cardElement = document.getElementById(`card-${cardId}`);
-        if (cardElement) {
-            cardElement.remove();
-        }
-    })
-    .catch(error => console.error('Error adding new list:', error));
+        .then(response => {
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            const cardElement = document.getElementById(`card-${cardId}`);
+            if (cardElement) {
+                cardElement.remove();
+            }
+        })
+        .catch(error => console.error('Error adding new list:', error));
 }
 
 function fetchLists() {
@@ -82,6 +82,20 @@ function fetchCardsByList(listId) {
         .then(response => {
             displayCards(response.data, listId);
         })
+        .catch(error => console.error('Error fetching cards:', error))
+}
+
+function patchParentList(cardId, parentListId)
+{
+    let newParentList = { 'card_list_id': parentListId }
+
+    fetch(getPatchParentListApiUrl(cardId), { 
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newParentList)
+    })
         .catch(error => console.error('Error fetching cards:', error))
 }
 
@@ -171,8 +185,9 @@ function _createCardsContainerElement(currentListId) {
 function _makeCardDraggable(cardElement) {
     cardElement.draggable = true;
 
-    cardElement.addEventListener('dragstart', () => {
+    cardElement.addEventListener('dragstart', (event) => {
         cardElement.classList.add('dragging');
+        event.dataTransfer.setData('text/plain', cardElement.id);
     });
 
     cardElement.addEventListener('dragend', () => {
@@ -181,10 +196,20 @@ function _makeCardDraggable(cardElement) {
 }
 
 function _makeCardsContainerDroppable(cardContainerElement) {
-    cardContainerElement.addEventListener('dragover', () => {
+    cardContainerElement.addEventListener('dragover', (event) => {
+        event.preventDefault();
         const draggable = document.querySelector('.dragging');
         cardContainerElement.appendChild(draggable);
+        console.log("AAAAA");
     })
+
+    cardContainerElement.addEventListener('drop', (event) => {
+        event.preventDefault();
+        const cardId = event.dataTransfer.getData('text/plain').split('-')[1];
+        const cardContainerId = cardContainerElement.id.split('-')[1];
+
+        patchParentList(cardId, cardContainerId);
+    });
 }
 
 addNewListButton.addEventListener('click', addNewList);

@@ -2066,7 +2066,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getCardApiUrl: () => (/* binding */ getCardApiUrl),
 /* harmony export */   getCardListApiUrl: () => (/* binding */ getCardListApiUrl),
 /* harmony export */   getCardsByIdApiUrl: () => (/* binding */ getCardsByIdApiUrl),
-/* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl)
+/* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl),
+/* harmony export */   getPatchParentListApiUrl: () => (/* binding */ getPatchParentListApiUrl)
 /* harmony export */ });
 var BASE_API_URL = 'http://127.0.0.1:8000/';
 function getCardListApiUrl() {
@@ -2080,6 +2081,9 @@ function getCardsByListApiUrl(listId) {
 }
 function getCardsByIdApiUrl(cardId) {
   return "".concat(getCardApiUrl(), "/").concat(cardId);
+}
+function getPatchParentListApiUrl(cardId) {
+  return "".concat(getCardApiUrl(), "/patch-parent-list/").concat(cardId);
 }
 
 /***/ }),
@@ -2207,6 +2211,20 @@ function fetchCardsByList(listId) {
     return console.error('Error fetching cards:', error);
   });
 }
+function patchParentList(cardId, parentListId) {
+  var newParentList = {
+    'card_list_id': parentListId
+  };
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getPatchParentListApiUrl)(cardId), {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(newParentList)
+  })["catch"](function (error) {
+    return console.error('Error fetching cards:', error);
+  });
+}
 function displayLists(lists) {
   lists.forEach(function (currentList) {
     var newList = _createListElement(currentList);
@@ -2272,17 +2290,26 @@ function _createCardsContainerElement(currentListId) {
 }
 function _makeCardDraggable(cardElement) {
   cardElement.draggable = true;
-  cardElement.addEventListener('dragstart', function () {
+  cardElement.addEventListener('dragstart', function (event) {
     cardElement.classList.add('dragging');
+    event.dataTransfer.setData('text/plain', cardElement.id);
   });
   cardElement.addEventListener('dragend', function () {
     cardElement.classList.remove('dragging');
   });
 }
 function _makeCardsContainerDroppable(cardContainerElement) {
-  cardContainerElement.addEventListener('dragover', function () {
+  cardContainerElement.addEventListener('dragover', function (event) {
+    event.preventDefault();
     var draggable = document.querySelector('.dragging');
     cardContainerElement.appendChild(draggable);
+    console.log("AAAAA");
+  });
+  cardContainerElement.addEventListener('drop', function (event) {
+    event.preventDefault();
+    var cardId = event.dataTransfer.getData('text/plain').split('-')[1];
+    var cardContainerId = cardContainerElement.id.split('-')[1];
+    patchParentList(cardId, cardContainerId);
   });
 }
 addNewListButton.addEventListener('click', addNewList);
