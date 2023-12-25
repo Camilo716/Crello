@@ -1,6 +1,6 @@
 require('./bootstrap');
 
-import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl  } from './apiConfig';
+import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl, getCardsByIdApiUrl  } from './apiConfig';
 
 const listsContainer = document.getElementById('listsContainer');
 const addNewListButton = document.getElementById('addNewList');
@@ -53,13 +53,36 @@ function addNewCard(listId) {
     .catch(error => console.error('Error adding new list:', error));
 }
 
-function getExistingLists() {
+function deleteCard(cardId) {
+    fetch(getCardsByIdApiUrl(cardId), { 
+        method: "DELETE"
+    })
+    .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        const cardElement = document.getElementById(`card-${cardId}`);
+        if (cardElement) {
+            cardElement.remove();
+        }
+    })
+    .catch(error => console.error('Error adding new list:', error));
+}
+
+function fetchLists() {
     fetch(getCardListApiUrl())
         .then(response => response.json())
         .then(response => {
             displayLists(response.data);
         })
         .catch(error => console.error('Error fetching lists:', error))
+}
+
+function fetchCardsByList(listId) {
+    fetch(getCardsByListApiUrl(listId))
+        .then(response => response.json())
+        .then(response => {
+            displayCards(response.data, listId);
+        })
+        .catch(error => console.error('Error fetching cards:', error))
 }
 
 function displayLists(lists) {
@@ -75,14 +98,6 @@ function displayLists(lists) {
     });
 }
 
-function fetchCardsByList(listId) {
-    fetch(getCardsByListApiUrl(listId))
-        .then(response => response.json())
-        .then(response => {
-            displayCards(response.data, listId);
-        })
-        .catch(error => console.error('Error fetching cards:', error))
-}
 
 function displayCards(cards, parentcardContainerId) {
     const cardsContainerElement = document.getElementById(`cardsContainer-${parentcardContainerId}`)
@@ -122,6 +137,7 @@ function _createListElement(currentList) {
 function _createCardElement(currentCard) {
     let newCard = document.createElement('div');
     newCard.className = 'card';
+    newCard.id = `card-${currentCard.id}`;
 
     let cardTitle = document.createElement('h3');
     cardTitle.textContent = currentCard.title;
@@ -134,7 +150,7 @@ function _createCardElement(currentCard) {
     deleteIcon.className = 'fas fa-trash-alt';
     deleteButton.appendChild(deleteIcon);
 
-    deleteButton.addEventListener('click', function() { console.log('Borrar :)')});
+    deleteButton.addEventListener('click', () => deleteCard(currentCard.id));
     newCard.appendChild(deleteButton)
 
     return newCard;
@@ -148,4 +164,4 @@ function _createCardsContainerElement(currentListId) {
 }
 
 addNewListButton.addEventListener('click', addNewList);
-document.addEventListener('DOMContentLoaded', getExistingLists);
+document.addEventListener('DOMContentLoaded', fetchLists);

@@ -2065,6 +2065,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   getCardApiUrl: () => (/* binding */ getCardApiUrl),
 /* harmony export */   getCardListApiUrl: () => (/* binding */ getCardListApiUrl),
+/* harmony export */   getCardsByIdApiUrl: () => (/* binding */ getCardsByIdApiUrl),
 /* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl)
 /* harmony export */ });
 var BASE_API_URL = 'http://127.0.0.1:8000/';
@@ -2075,7 +2076,10 @@ function getCardApiUrl() {
   return "".concat(BASE_API_URL, "card");
 }
 function getCardsByListApiUrl(listId) {
-  return "".concat(BASE_API_URL, "card/get-by-list?card_list_id=").concat(listId);
+  return "".concat(getCardApiUrl(), "/get-by-list?card_list_id=").concat(listId);
+}
+function getCardsByIdApiUrl(cardId) {
+  return "".concat(getCardApiUrl(), "/").concat(cardId);
 }
 
 /***/ }),
@@ -2172,13 +2176,35 @@ function addNewCard(listId) {
     return console.error('Error adding new list:', error);
   });
 }
-function getExistingLists() {
+function deleteCard(cardId) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByIdApiUrl)(cardId), {
+    method: "DELETE"
+  }).then(function (response) {
+    if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
+    var cardElement = document.getElementById("card-".concat(cardId));
+    if (cardElement) {
+      cardElement.remove();
+    }
+  })["catch"](function (error) {
+    return console.error('Error adding new list:', error);
+  });
+}
+function fetchLists() {
   fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)()).then(function (response) {
     return response.json();
   }).then(function (response) {
     displayLists(response.data);
   })["catch"](function (error) {
     return console.error('Error fetching lists:', error);
+  });
+}
+function fetchCardsByList(listId) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId)).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    displayCards(response.data, listId);
+  })["catch"](function (error) {
+    return console.error('Error fetching cards:', error);
   });
 }
 function displayLists(lists) {
@@ -2189,15 +2215,6 @@ function displayLists(lists) {
     newList.appendChild(cardsContainerElement);
     fetchCardsByList(currentList.id);
     displayAddNewCardForm(currentList.id, newList);
-  });
-}
-function fetchCardsByList(listId) {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId)).then(function (response) {
-    return response.json();
-  }).then(function (response) {
-    displayCards(response.data, listId);
-  })["catch"](function (error) {
-    return console.error('Error fetching cards:', error);
   });
 }
 function displayCards(cards, parentcardContainerId) {
@@ -2230,6 +2247,7 @@ function _createListElement(currentList) {
 function _createCardElement(currentCard) {
   var newCard = document.createElement('div');
   newCard.className = 'card';
+  newCard.id = "card-".concat(currentCard.id);
   var cardTitle = document.createElement('h3');
   cardTitle.textContent = currentCard.title;
   newCard.appendChild(cardTitle);
@@ -2239,7 +2257,7 @@ function _createCardElement(currentCard) {
   deleteIcon.className = 'fas fa-trash-alt';
   deleteButton.appendChild(deleteIcon);
   deleteButton.addEventListener('click', function () {
-    console.log('Borrar :)');
+    return deleteCard(currentCard.id);
   });
   newCard.appendChild(deleteButton);
   return newCard;
@@ -2251,7 +2269,7 @@ function _createCardsContainerElement(currentListId) {
   return cardsContainerElement;
 }
 addNewListButton.addEventListener('click', addNewList);
-document.addEventListener('DOMContentLoaded', getExistingLists);
+document.addEventListener('DOMContentLoaded', fetchLists);
 
 /***/ }),
 
