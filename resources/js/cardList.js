@@ -7,13 +7,16 @@ const addNewListButton = document.getElementById('addNewList');
 const newListTitleInput = document.getElementById('title');
 
 function addNewList() {
-    const newListTitle = newListTitleInput.value; 
+    let newList = {
+        title: newListTitleInput.value
+    }
+
     fetch(getCardListApiUrl(), { 
         method: "POST",
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ title: newListTitle })
+        body: JSON.stringify(newList)
     })
         .then(response => {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -92,6 +95,7 @@ function displayCards(cards, parentcardContainerId) {
 function displayAddNewCardForm(currentListId, listElement) {
     let newCardForm =  _createAddNewCardFormElement(currentListId);
     listElement.appendChild(newCardForm);
+
     let addCardButton = document.getElementById(`addCardButton-${currentListId}`);
     addCardButton.addEventListener('click', () => addNewCard(currentListId));
 }

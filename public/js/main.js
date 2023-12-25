@@ -2131,15 +2131,15 @@ var listsContainer = document.getElementById('listsContainer');
 var addNewListButton = document.getElementById('addNewList');
 var newListTitleInput = document.getElementById('title');
 function addNewList() {
-  var newListTitle = newListTitleInput.value;
+  var newList = {
+    title: newListTitleInput.value
+  };
   fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      title: newListTitle
-    })
+    body: JSON.stringify(newList)
   }).then(function (response) {
     if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
     return response.json();
