@@ -143,6 +143,14 @@ nav {
     background-color: #22272B;
     padding: 15px;
     border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.card:hover {
+    transition: 0.2s ease;
+    outline: 0 transparent;
+    border: 2px solid #85B8FF;
 }
 
 .newCardForm {
@@ -199,3 +207,7 @@ nav {
     color: rgb(78, 0, 0);
 }
 
+.deleteCardButton:hover {
+    transition: 0.2s ease;
+    color: rgb(226, 68, 68);
+}
