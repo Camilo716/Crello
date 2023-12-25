@@ -44,6 +44,17 @@ class CardTest extends TestCase
         $this->assertCount(1, $cards);
     }
 
+    public function test_client_delete_a_card()
+    {
+        $cardList = CardList::factory()->create();
+        $card = Card::factory()->create(['card_list_id' => $cardList->id]);
+
+        $response = $this->deleteJson("/card/{$card->id}");
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('cards', ['id' => $card->id]);
+    }
+
     private function addCardsToAList(int $listId, $numberOfCards)
     {
         for($i = 1; $i <= $numberOfCards; $i++)

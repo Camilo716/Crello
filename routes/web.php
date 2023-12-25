@@ -20,6 +20,7 @@ Route::get('/', function () {
 });
 
 Route::post('/card', [CardController::class,'store']);
+Route::delete('/card/{id}', [CardController::class, 'destroy']);
 Route::get('/card/get-by-list', [CardController::class,'getByList']);
 
 Route::get('/card-list', [CardListController::class,'index']);

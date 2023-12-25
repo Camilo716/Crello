@@ -20,6 +20,15 @@ class CardController extends Controller
         201);
     }
 
+    public function destroy($id) {
+        $card = Card::findOrFail($id);
+        $card->delete();
+
+        return response()->json([
+            'message' => 'Card deleted successfully'],
+        204);
+    }
+
     public function getByList(Request $request)
     {
         $listId = $request->query('card_list_id');
