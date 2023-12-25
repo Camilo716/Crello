@@ -2116,10 +2116,10 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/cardList.js":
-/*!**********************************!*\
-  !*** ./resources/js/cardList.js ***!
-  \**********************************/
+/***/ "./resources/js/main.js":
+/*!******************************!*\
+  !*** ./resources/js/main.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2241,20 +2241,6 @@ function _createCardsContainerElement(currentListId) {
 }
 addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', getExistingLists);
-
-/***/ }),
-
-/***/ "./resources/js/main.js":
-/*!******************************!*\
-  !*** ./resources/js/main.js ***!
-  \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _cardList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cardList */ "./resources/js/cardList.js");
-
-
 
 /***/ }),
 
