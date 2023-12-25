@@ -20,7 +20,7 @@ function addNewList() {
             return response.json();
         })
         .then(response => {
-            displayLists(response.data);
+            displayLists([response.data]);
             newListTitleInput.value = '';
         })
         .catch(error => console.error('Error adding new list:', error));
