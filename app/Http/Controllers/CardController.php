@@ -19,6 +19,18 @@ class CardController extends Controller
             'data' => $cardResponse->toArray()],
         201);
     }
+    
+    public function update($id, CreateCardRequest $request)
+    {
+        $card = Card::findOrFail($id);
+        
+        $card->update($request->validated());
+        
+        return response()->json([
+            'message' => 'Card list created successfully',
+            'data' => $card->fresh()->toArray()],
+        200);
+    }
 
     public function destroy($id) {
         $card = Card::findOrFail($id);
@@ -35,7 +47,7 @@ class CardController extends Controller
         $cards = Card::where('card_list_id', '=', $listId)->get();
 
         return response()->json([
-            'message' => 'Succesfully get cards by list',
+            'message' => 'Successfully get cards by list',
             'data' => $cards],
         200);
     }

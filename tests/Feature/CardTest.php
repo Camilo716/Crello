@@ -29,7 +29,37 @@ class CardTest extends TestCase
             ->assertJsonStructure(['data' => ['id', 'title', 'content', 'card_list_id']]);
         $this->assertDatabaseHas('cards', $card);
     }
-
+    
+    public function test_client_update_a_card()
+    {
+        $cardList = CardList::factory()->create();
+        $card = Card::factory()->create(['card_list_id' => $cardList->id]);
+        $updated_data = [
+            'id' => $card->id,
+            'title' => 'New title',
+            'content' => 'New content',
+            'card_list_id' => $cardList->id
+        ];
+        
+        $response = $this->putJson("/card/{$card->id}", $updated_data);
+        
+        $response
+            ->assertStatus(200)
+            ->assertJsonStructure(['data' => ['id', 'title', 'content', 'card_list_id']]);
+        $this->assertDatabaseHas('cards', $updated_data);
+    }
+    
+    public function test_client_delete_a_card()
+    {
+        $cardList = CardList::factory()->create();
+        $card = Card::factory()->create(['card_list_id' => $cardList->id]);
+        
+        $response = $this->deleteJson("/card/{$card->id}");
+        
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('cards', ['id' => $card->id]);
+    }
+    
     public function test_client_get_cards_by_list()
     {
         $cardList1 = CardList::factory()->create();
@@ -42,17 +72,6 @@ class CardTest extends TestCase
         $response->assertStatus(200);        
         $cards = $response->json()["data"];
         $this->assertCount(1, $cards);
-    }
-
-    public function test_client_delete_a_card()
-    {
-        $cardList = CardList::factory()->create();
-        $card = Card::factory()->create(['card_list_id' => $cardList->id]);
-
-        $response = $this->deleteJson("/card/{$card->id}");
-
-        $response->assertStatus(204);
-        $this->assertDatabaseMissing('cards', ['id' => $card->id]);
     }
 
     private function addCardsToAList(int $listId, $numberOfCards)
