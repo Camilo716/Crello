@@ -2054,6 +2054,32 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/apiConfig.js":
+/*!***********************************!*\
+  !*** ./resources/js/apiConfig.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getCardApiUrl: () => (/* binding */ getCardApiUrl),
+/* harmony export */   getCardListApiUrl: () => (/* binding */ getCardListApiUrl),
+/* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl)
+/* harmony export */ });
+var BASE_API_URL = 'http://127.0.0.1:8000/';
+function getCardListApiUrl() {
+  return "".concat(BASE_API_URL, "card-list");
+}
+function getCardApiUrl() {
+  return "".concat(BASE_API_URL, "card");
+}
+function getCardsByListApiUrl(listId) {
+  return "".concat(BASE_API_URL, "card/get-by-list?card_list_id=").concat(listId);
+}
+
+/***/ }),
+
 /***/ "./resources/js/bootstrap.js":
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
@@ -2094,16 +2120,19 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*!**********************************!*\
   !*** ./resources/js/cardList.js ***!
   \**********************************/
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 var listsContainer = document.getElementById('listsContainer');
 var addNewListButton = document.getElementById('addNewList');
 var newListTitleInput = document.getElementById('title');
-var baseApiUrl = 'http://127.0.0.1:8000/';
 function addNewList() {
   var newListTitle = newListTitleInput.value;
-  fetch(baseApiUrl + 'card-list', {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -2123,7 +2152,7 @@ function addNewList() {
 }
 function addNewCard(listId) {
   var newCardTitleInput = document.getElementById("addCardTitleInput-".concat(listId));
-  fetch(baseApiUrl + 'card', {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardApiUrl)(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -2144,7 +2173,7 @@ function addNewCard(listId) {
   });
 }
 function getExistingLists() {
-  fetch(baseApiUrl + 'card-list').then(function (response) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)()).then(function (response) {
     return response.json();
   }).then(function (response) {
     displayLists(response.data);
@@ -2167,8 +2196,7 @@ function displayLists(lists) {
   });
 }
 function fetchCardsByList(listId) {
-  var apiUrl = baseApiUrl + "card/get-by-list?card_list_id=".concat(listId);
-  fetch(apiUrl).then(function (response) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId)).then(function (response) {
     return response.json();
   }).then(function (response) {
     displayCards(response.data, listId);
@@ -2209,7 +2237,6 @@ document.addEventListener('DOMContentLoaded', getExistingLists);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _cardList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./cardList */ "./resources/js/cardList.js");
-/* harmony import */ var _cardList__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_cardList__WEBPACK_IMPORTED_MODULE_0__);
 
 
 
@@ -19707,18 +19734,6 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	

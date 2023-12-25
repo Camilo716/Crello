@@ -1,14 +1,14 @@
 require('./bootstrap');
 
+import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl  } from './apiConfig';
+
 const listsContainer = document.getElementById('listsContainer');
 const addNewListButton = document.getElementById('addNewList');
 const newListTitleInput = document.getElementById('title');
 
-const baseApiUrl = 'http://127.0.0.1:8000/'
-
 function addNewList() {
     const newListTitle = newListTitleInput.value; 
-    fetch(baseApiUrl+'card-list', { 
+    fetch(getCardListApiUrl(), { 
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -28,8 +28,7 @@ function addNewList() {
 
 function addNewCard(listId) {
     const newCardTitleInput = document.getElementById(`addCardTitleInput-${listId}`);
-
-    fetch(baseApiUrl + 'card', { 
+    fetch(getCardApiUrl(), { 
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -53,7 +52,7 @@ function addNewCard(listId) {
 
 function getExistingLists()
 {
-    fetch(baseApiUrl+'card-list')
+    fetch(getCardListApiUrl())
         .then(response => response.json())
         .then(response => {
             displayLists(response.data);
@@ -81,9 +80,7 @@ function displayLists(lists)
 
 function fetchCardsByList(listId)
 {
-    const apiUrl =  baseApiUrl+`card/get-by-list?card_list_id=${listId}`;
-
-    fetch(apiUrl)
+    fetch(getCardsByListApiUrl(listId))
         .then(response => response.json())
         .then(response => {
             displayCards(response.data, listId);
