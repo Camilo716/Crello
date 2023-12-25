@@ -23,6 +23,7 @@ Route::post('/card', [CardController::class,'store']);
 Route::put('/card/{id}', [CardController::class,'update']);
 Route::delete('/card/{id}', [CardController::class, 'destroy']);
 Route::get('/card/get-by-list', [CardController::class,'getByList']);
+Route::patch('/card/patch-parent-list/{id}', [CardController::class, 'patchParentList']);
 
 Route::get('/card-list', [CardListController::class,'index']);
 Route::post('/card-list', [CardListController::class,'store']);
