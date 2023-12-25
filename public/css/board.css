@@ -134,6 +134,7 @@ nav {
     justify-content: space-between;
     gap: 10px;
     margin: 10px;
+    min-height: 5px;
 }
 
 .card {
