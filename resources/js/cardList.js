@@ -101,15 +101,23 @@ function displayCards(cards, parentcardContainerId)
 
 function displayAddNewCardForm(currentListId, listElement)
 {
-    let newCardForm = document.createElement('form');
-    newCardForm.className = 'newCardForm';
-    newCardForm.innerHTML = `
-        <input type="text" placeholder="Enter card title..." id="addCardTitleInput-${currentListId}">
-        <button class="addNewCard" type="button" id="addCardButton-${currentListId}">Add Card</button>
-    `;
+    let newCardForm =  _getAddNewCardForm(currentListId);
     listElement.appendChild(newCardForm);
     let addCardButton = document.getElementById(`addCardButton-${currentListId}`);
     addCardButton.addEventListener('click', () => addNewCard(currentListId));
+}
+
+function _getAddNewCardForm(parentListId)
+{
+    let newCardForm = document.createElement('form');
+    newCardForm.className = 'newCardForm';
+
+    newCardForm.innerHTML = `
+        <input type="text" placeholder="Enter card title..." id="addCardTitleInput-${parentListId}">
+        <button class="addNewCard" type="button" id="addCardButton-${parentListId}">Add Card</button>
+    `;
+
+    return newCardForm;
 }
 
 addNewListButton.addEventListener('click', addNewList);

@@ -2214,14 +2214,18 @@ function displayCards(cards, parentcardContainerId) {
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = document.createElement('form');
-  newCardForm.className = 'newCardForm';
-  newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(currentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(currentListId, "\">Add Card</button>\n    ");
+  var newCardForm = _getAddNewCardForm(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener('click', function () {
     return addNewCard(currentListId);
   });
+}
+function _getAddNewCardForm(parentListId) {
+  var newCardForm = document.createElement('form');
+  newCardForm.className = 'newCardForm';
+  newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
+  return newCardForm;
 }
 addNewListButton.addEventListener('click', addNewList);
 document.addEventListener('DOMContentLoaded', getExistingLists);
