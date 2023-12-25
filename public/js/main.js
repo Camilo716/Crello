@@ -2230,7 +2230,18 @@ function _createListElement(currentList) {
 function _createCardElement(currentCard) {
   var newCard = document.createElement('div');
   newCard.className = 'card';
-  newCard.innerHTML = "<h3>".concat(currentCard.title, "</h3>");
+  var cardTitle = document.createElement('h3');
+  cardTitle.textContent = currentCard.title;
+  newCard.appendChild(cardTitle);
+  var deleteButton = document.createElement('button');
+  deleteButton.className = 'deleteCardButton';
+  var deleteIcon = document.createElement('i');
+  deleteIcon.className = 'fas fa-trash-alt';
+  deleteButton.appendChild(deleteIcon);
+  deleteButton.addEventListener('click', function () {
+    console.log('Borrar :)');
+  });
+  newCard.appendChild(deleteButton);
   return newCard;
 }
 function _createCardsContainerElement(currentListId) {

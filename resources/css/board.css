@@ -136,6 +136,8 @@ nav {
 }
 
 .card {
+    display: flex;
+    justify-content: space-between;
     color: #FFFFFF;
     background-color: #22272B;
     padding: 15px;
@@ -185,3 +187,9 @@ nav {
     color: #1D2125;
 }
 
+.deleteCardButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(78, 0, 0);
+}

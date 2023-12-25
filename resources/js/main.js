@@ -122,7 +122,21 @@ function _createListElement(currentList) {
 function _createCardElement(currentCard) {
     let newCard = document.createElement('div');
     newCard.className = 'card';
-    newCard.innerHTML = `<h3>${currentCard.title}</h3>`;
+
+    let cardTitle = document.createElement('h3');
+    cardTitle.textContent = currentCard.title;
+    newCard.appendChild(cardTitle);
+
+    let deleteButton = document.createElement('button');
+    deleteButton.className = 'deleteCardButton';
+
+    let deleteIcon = document.createElement('i');
+    deleteIcon.className = 'fas fa-trash-alt';
+    deleteButton.appendChild(deleteIcon);
+
+    deleteButton.addEventListener('click', function() { console.log('Borrar :)')});
+    newCard.appendChild(deleteButton)
+
     return newCard;
 }
 
