@@ -26,7 +26,12 @@ h1 {
 
 h2 {
     margin: 10px;
-    color: #B6C2CF
+    color: #B6C2CF;
+    font-weight: 550;
+}
+
+h3 {
+    font-weight: 500;
 }
 
 body {
@@ -65,7 +70,7 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    min-width: 250px;
+    min-width: 300px;
     max-height: 82vh;
     background-color: #101204;
     height: fit-content;
@@ -133,15 +138,25 @@ nav {
     justify-content: space-between;
     gap: 10px;
     margin: 10px;
+    min-height: 5px;
 }
 
 .card {
     display: flex;
     justify-content: space-between;
+    gap: 5px;
     color: #FFFFFF;
     background-color: #22272B;
     padding: 15px;
     border-radius: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+.card:hover {
+    transition: 0.2s ease;
+    outline: 0 transparent;
+    border: 2px solid #85B8FF;
 }
 
 .newCardForm {
@@ -192,4 +207,9 @@ nav {
     border: none;
     cursor: pointer;
     color: rgb(78, 0, 0);
+}
+
+.deleteCardButton:hover {
+    transition: 0.2s ease;
+    color: rgb(226, 68, 68);
 }

@@ -2069,12 +2069,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl),
 /* harmony export */   getPatchParentListApiUrl: () => (/* binding */ getPatchParentListApiUrl)
 /* harmony export */ });
-var BASE_API_URL = 'http://127.0.0.1:8000/';
+var BASE_API_URL = 'http://127.0.0.1:8000/api';
 function getCardListApiUrl() {
-  return "".concat(BASE_API_URL, "card-list");
+  return "".concat(BASE_API_URL, "/card-list");
 }
 function getCardApiUrl() {
-  return "".concat(BASE_API_URL, "card");
+  return "".concat(BASE_API_URL, "/card");
 }
 function getCardsByListApiUrl(listId) {
   return "".concat(getCardApiUrl(), "/get-by-list?card_list_id=").concat(listId);
