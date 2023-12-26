@@ -25,5 +25,5 @@ Route::delete('/api/card/{id}', [CardController::class, 'destroy']);
 Route::get('/api/card/get-by-list', [CardController::class,'getByList']);
 Route::patch('/api/card/patch-parent-list/{id}', [CardController::class, 'patchParentList']);
 
-Route::get('/card-list', [CardListController::class,'index']);
-Route::post('/card-list', [CardListController::class,'store']);
+Route::get('/api/card-list', [CardListController::class,'index']);
+Route::post('/api/card-list', [CardListController::class,'store']);
