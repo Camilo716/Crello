@@ -12,6 +12,8 @@ use Tests\TestCase;
 class CardTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
+    
+    private $cardBaseEnpoint = '/api/card';
 
     public function test_client_add_new_card_to_an_existing_card_list()
     {
@@ -22,7 +24,7 @@ class CardTest extends TestCase
             'card_list_id' => $cardList->id
         ];
 
-        $response = $this->postJson('/card', $card);
+        $response = $this->postJson($this->cardBaseEnpoint, $card);
 
         $response
             ->assertStatus(201)
@@ -41,7 +43,7 @@ class CardTest extends TestCase
             'card_list_id' => $cardList->id
         ];
         
-        $response = $this->putJson("/card/{$card->id}", $updated_data);
+        $response = $this->putJson("$this->cardBaseEnpoint/{$card->id}", $updated_data);
         
         $response
             ->assertStatus(200)
@@ -54,7 +56,7 @@ class CardTest extends TestCase
         $cardList = CardList::factory()->create();
         $card = Card::factory()->create(['card_list_id' => $cardList->id]);
         
-        $response = $this->deleteJson("/card/{$card->id}");
+        $response = $this->deleteJson("$this->cardBaseEnpoint/{$card->id}");
         
         $response->assertStatus(204);
         $this->assertDatabaseMissing('cards', ['id' => $card->id]);
@@ -68,7 +70,7 @@ class CardTest extends TestCase
         $this->addCardsToAList($cardList1->id, 2);
         $this->addCardsToAList($cardList2->id, 1);
         
-        $response = $this->getJson("/card/get-by-list?card_list_id={$cardList2->id}");
+        $response = $this->getJson("$this->cardBaseEnpoint/get-by-list?card_list_id={$cardList2->id}");
         
         $response->assertStatus(200);        
         $cards = $response->json()["data"];
@@ -82,7 +84,7 @@ class CardTest extends TestCase
         $card = Card::factory()->create(['card_list_id' => $cardList1->id]);
         $partialUpdate = ['card_list_id' => $cardList2->id];
 
-        $response = $this->patchJson("/card/patch-parent-list/{$card->id}", $partialUpdate);
+        $response = $this->patchJson("$this->cardBaseEnpoint/patch-parent-list/{$card->id}", $partialUpdate);
 
         $expectedJson = [
             'id' => $card->id,
@@ -101,7 +103,7 @@ class CardTest extends TestCase
         for($i = 1; $i <= $numberOfCards; $i++)
         {
             $card = Card::factory()->create(['card_list_id' => $listId]);
-            $this->postJson('/card', [$card]);
+            $this->postJson("$this->cardBaseEnpoint", [$card]);
         }
     }
 }

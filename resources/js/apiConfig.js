@@ -1,11 +1,11 @@
-const BASE_API_URL = 'http://127.0.0.1:8000/'
+const BASE_API_URL = 'http://127.0.0.1:8000/api'
 
 export function getCardListApiUrl() {
-    return `${BASE_API_URL}card-list`;
+    return `${BASE_API_URL}/card-list`;
 }
 
 export function getCardApiUrl() {
-    return `${BASE_API_URL}card`;
+    return `${BASE_API_URL}/card`;
 }
 
 export function getCardsByListApiUrl(listId) {
