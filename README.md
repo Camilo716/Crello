@@ -4,6 +4,8 @@
 
 Full stack web application inspired by Trello, allow users to organize task and projects using card-based system withing boards. (WIP)
 
+![Alt text](crello-2.png)
+
 ### Technologies Used
 
 - **Frontend:** HTML, CSS, JavaScript (vanilla)
