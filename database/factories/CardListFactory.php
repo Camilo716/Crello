@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Board;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CardListFactory extends Factory
@@ -14,7 +15,8 @@ class CardListFactory extends Factory
     public function definition()
     {
         return [
-            'title' => $this->faker->sentence()
+            'title' => $this->faker->sentence(),
+            'board_id' => Board::factory()->create()->id
         ];
     }
 }

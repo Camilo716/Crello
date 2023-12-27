@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Board;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -12,10 +13,12 @@ class CardListTest extends TestCase
 
     private $cardListBaseEnpoint = '/api/card-list';
 
-    public function test_client_post_new_card_list()
+    public function test_client_post_new_card_list_to_an_existing_board()
     {
+        $board = Board::factory()->create();
         $cardList = [
-            'title' => 'DumpTitle'
+            'title' => 'DumpTitle',
+            'board_id' => $board->id,
         ];
 
         $response = $this->postJson($this->cardListBaseEnpoint, $cardList);
@@ -28,6 +31,6 @@ class CardListTest extends TestCase
     {
         $response = $this->getJson($this->cardListBaseEnpoint);
         $response->assertStatus(200);
-        $response->assertJson(['data'=> []]);
+        $response->assertJson(['data' => []]);
     }
 }

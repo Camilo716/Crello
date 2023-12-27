@@ -13,6 +13,7 @@ class CreateCardListRequestTest extends TestCase
         $request = new CreateCardListRequest();
         $validData = [             
             'title' => 'Valid Title',
+            'board_id' => 1, 
         ];
 
         $validator = Validator::make($validData, $request->rules());

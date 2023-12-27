@@ -15,6 +15,7 @@ class CreateCardListRequest extends FormRequest
     {
         return [
             'title'=> 'required',
+            'board_id'=> 'required',
         ];
     }
 }
