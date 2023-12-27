@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateCardRequest;
-use App\Http\Requests\PatchParentListRequest;
 use App\Models\Card;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateCardRequest;
+use App\Http\Requests\PatchParentListRequest;
+use Symfony\Component\HttpFoundation\Response;
 
 class CardController extends Controller
 {
@@ -18,7 +19,7 @@ class CardController extends Controller
         return response()->json([
             'message' => 'Card list created successfully',
             'data' => $cardResponse->toArray()],
-        201);
+        Response::HTTP_CREATED);
     }
     
     public function update($id, CreateCardRequest $request)
@@ -30,7 +31,7 @@ class CardController extends Controller
         return response()->json([
             'message' => 'Card list created successfully',
             'data' => $card->fresh()->toArray()],
-        200);
+        Response::HTTP_OK);
     }
     
     public function destroy($id) {
@@ -39,8 +40,8 @@ class CardController extends Controller
         
         return response()->json([
             'message' => 'Card deleted successfully'],
-            204);
-        }
+        Response::HTTP_NO_CONTENT);
+    }
         
     public function patchParentList($id, PatchParentListRequest $request) {
         $card = Card::findOrFail($id);
@@ -50,7 +51,7 @@ class CardController extends Controller
         return response()->json([
             'message' => 'Card list created successfully',
             'data' => $card->refresh()->toArray()],
-        200);
+        Response::HTTP_OK);
     }
         
     public function getByList(Request $request)
@@ -61,6 +62,6 @@ class CardController extends Controller
         return response()->json([
             'message' => 'Successfully get cards by list',
             'data' => $cards],
-        200);
+        Response::HTTP_OK);
     }
 }
