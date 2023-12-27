@@ -2,10 +2,11 @@
 
 namespace Tests\Feature;
 
-use App\Models\Board;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\Models\Board;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class CardListTest extends TestCase
 {
