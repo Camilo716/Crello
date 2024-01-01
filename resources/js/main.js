@@ -240,7 +240,6 @@ function _makeCardsContainerDroppable(cardContainerElement) {
         event.preventDefault();
         const draggable = document.querySelector(".dragging");
         cardContainerElement.appendChild(draggable);
-        console.log("AAAAA");
     });
 
     cardContainerElement.addEventListener("drop", (event) => {

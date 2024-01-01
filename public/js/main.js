@@ -2329,7 +2329,6 @@ function _makeCardsContainerDroppable(cardContainerElement) {
     event.preventDefault();
     var draggable = document.querySelector(".dragging");
     cardContainerElement.appendChild(draggable);
-    console.log("AAAAA");
   });
   cardContainerElement.addEventListener("drop", function (event) {
     event.preventDefault();
