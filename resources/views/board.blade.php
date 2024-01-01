@@ -16,9 +16,9 @@
 </head>
 <body>
     <nav>
-        <ul class="boards">
-            <li><h1>Your Board</h1></li>
-        </ul>
+        <div class="boardsContainer">
+            <h1>Your Board</h1>
+        </div>
     </nav>
     <div class='container'>
         <div class='listsContainer' id='listsContainer'>

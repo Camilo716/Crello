@@ -2063,6 +2063,7 @@ module.exports = {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getBoardApiUrl: () => (/* binding */ getBoardApiUrl),
 /* harmony export */   getCardApiUrl: () => (/* binding */ getCardApiUrl),
 /* harmony export */   getCardListApiUrl: () => (/* binding */ getCardListApiUrl),
 /* harmony export */   getCardsByIdApiUrl: () => (/* binding */ getCardsByIdApiUrl),
@@ -2084,6 +2085,9 @@ function getCardsByIdApiUrl(cardId) {
 }
 function getPatchParentListApiUrl(cardId) {
   return "".concat(getCardApiUrl(), "/patch-parent-list/").concat(cardId);
+}
+function getBoardApiUrl() {
+  return "".concat(BASE_API_URL, "/board");
 }
 
 /***/ }),
@@ -2136,6 +2140,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 var listsContainer = document.getElementById('listsContainer');
+var boardsContainer = document.getElementById('boardsContainer');
 var addNewListButton = document.getElementById('addNewList');
 var newListTitleInput = document.getElementById('title');
 function addNewList() {
@@ -2156,6 +2161,15 @@ function addNewList() {
     newListTitleInput.value = '';
   })["catch"](function (error) {
     return console.error('Error adding new list:', error);
+  });
+}
+function fetchBoards() {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)()).then(function (response) {
+    return response.json();
+  }).then(function (response) {
+    displayBoards([response.data]);
+  })["catch"](function (error) {
+    return console.error('Error fetching lists:', error);
   });
 }
 function addNewCard(listId) {
@@ -2225,6 +2239,12 @@ function patchParentList(cardId, parentListId) {
     return console.error('Error fetching cards:', error);
   });
 }
+function displayBoards(boards) {
+  boards.forEach(function (currentBoard) {
+    var boardElement = _createBoardElement(currentBoard);
+    boardsContainer.appendChild(boardElement);
+  });
+}
 function displayLists(lists) {
   lists.forEach(function (currentList) {
     var newList = _createListElement(currentList);
@@ -2253,8 +2273,14 @@ function displayAddNewCardForm(currentListId, listElement) {
 function _createAddNewCardFormElement(parentListId) {
   var newCardForm = document.createElement('form');
   newCardForm.className = 'newCardForm';
-  newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
+  newCardForm.innerHTML = "\n    <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n    <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
   return newCardForm;
+}
+function _createBoardElement(board) {
+  var boardElement = document.createElement('div');
+  boardElement.className = 'board';
+  newList.innerHTML = "<h2>".concat(board.name, "</h2>");
+  return boardElement;
 }
 function _createListElement(currentList) {
   var newList = document.createElement('div');

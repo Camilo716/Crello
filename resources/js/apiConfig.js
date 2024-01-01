@@ -19,3 +19,7 @@ export function getCardsByIdApiUrl(cardId) {
 export function getPatchParentListApiUrl(cardId) {
     return `${getCardApiUrl()}/patch-parent-list/${cardId}`;
 }
+
+export function getBoardApiUrl() {
+    return `${BASE_API_URL}/board`;
+}

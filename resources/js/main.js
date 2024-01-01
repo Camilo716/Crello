@@ -1,8 +1,9 @@
 require('./bootstrap');
 
-import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl, getCardsByIdApiUrl, getPatchParentListApiUrl } from './apiConfig';
+import { getCardApiUrl, getCardListApiUrl, getCardsByListApiUrl, getCardsByIdApiUrl, getPatchParentListApiUrl, getBoardApiUrl } from './apiConfig';
 
 const listsContainer = document.getElementById('listsContainer');
+const boardsContainer = document.getElementById('boardsContainer');
 const addNewListButton = document.getElementById('addNewList');
 const newListTitleInput = document.getElementById('title');
 
@@ -27,6 +28,15 @@ function addNewList() {
             newListTitleInput.value = '';
         })
         .catch(error => console.error('Error adding new list:', error));
+}
+
+function fetchBoards() {
+    fetch(getBoardApiUrl())
+    .then(response => response.json())
+    .then(response => {
+        displayBoards([response.data]);
+    })
+    .catch(error => console.error('Error fetching lists:', error))
 }
 
 function addNewCard(listId) {
@@ -99,6 +109,13 @@ function patchParentList(cardId, parentListId)
         .catch(error => console.error('Error fetching cards:', error))
 }
 
+function displayBoards(boards) {
+    boards.forEach(currentBoard => {
+        let boardElement = _createBoardElement(currentBoard);
+        boardsContainer.appendChild(boardElement);
+    });
+}
+
 function displayLists(lists) {
     lists.forEach(currentList => {
         let newList = _createListElement(currentList);
@@ -129,16 +146,25 @@ function displayAddNewCardForm(currentListId, listElement) {
     addCardButton.addEventListener('click', () => addNewCard(currentListId));
 }
 
+
 function _createAddNewCardFormElement(parentListId) {
     let newCardForm = document.createElement('form');
     newCardForm.className = 'newCardForm';
-
+    
     newCardForm.innerHTML = `
-        <input type="text" placeholder="Enter card title..." id="addCardTitleInput-${parentListId}">
-        <button class="addNewCard" type="button" id="addCardButton-${parentListId}">Add Card</button>
+    <input type="text" placeholder="Enter card title..." id="addCardTitleInput-${parentListId}">
+    <button class="addNewCard" type="button" id="addCardButton-${parentListId}">Add Card</button>
     `;
-
+    
     return newCardForm;
+}
+
+function _createBoardElement(board) {
+    let boardElement = document.createElement('div');
+    boardElement.className = 'board';
+    newList.innerHTML = `<h2>${board.name}</h2>`;
+
+    return boardElement;
 }
 
 function _createListElement(currentList) {
