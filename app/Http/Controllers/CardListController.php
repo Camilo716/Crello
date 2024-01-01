@@ -22,7 +22,6 @@ class CardListController extends Controller
     {
         $cardList = $request->validated();
         
-        print_r($cardList);
         $cardListResponse = CardList::create($cardList);
 
         return response()->json([

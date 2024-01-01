@@ -31,7 +31,14 @@ class CardListTest extends TestCase
     public function test_client_get_all_card_lists()
     {
         $response = $this->getJson($this->cardListBaseEnpoint);
+
         $response->assertStatus(200);
-        $response->assertJson(['data' => []]);
+        $response->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id','title'
+                ]
+            ]
+        ]);
     }
 }

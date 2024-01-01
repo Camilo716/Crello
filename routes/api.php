@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CardController;
+use App\Http\Controllers\BoardController;
 use App\Http\Controllers\CardListController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -17,3 +18,5 @@ Route::patch('/card/patch-parent-list/{id}', [CardController::class, 'patchParen
 
 Route::get('/card-list', [CardListController::class,'index']);
 Route::post('/card-list', [CardListController::class,'store']);
+
+Route::get('/board', [BoardController::class, 'index']);
