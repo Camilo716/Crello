@@ -20,3 +20,4 @@ Route::get('/card-list', [CardListController::class,'index']);
 Route::post('/card-list', [CardListController::class,'store']);
 
 Route::get('/board', [BoardController::class, 'index']);
+Route::post('/board', [BoardController::class, 'store']);

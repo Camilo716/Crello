@@ -23,4 +23,20 @@ class BoardTest extends TestCase
             ]
         ]);
     }
+
+    public function test_client_add_new_board()
+    {
+        $board = [
+            'name' => 'Board Name'
+        ];
+
+        $response = $this->postJson('/api/board', $board);
+
+        $response->assertStatus(201);
+        $response->assertJsonStructure([
+            'data' => [
+                'id', 'name'
+            ]
+        ]);
+    }
 }

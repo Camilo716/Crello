@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateCardRequest extends FormRequest
+class CreateBoardRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -14,9 +14,7 @@ class CreateCardRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required',
-            'content' => '',
-            'card_list_id' => 'required',
+            'name' => 'required'
         ];
     }
 }
