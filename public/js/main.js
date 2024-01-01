@@ -2070,7 +2070,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl),
 /* harmony export */   getPatchParentListApiUrl: () => (/* binding */ getPatchParentListApiUrl)
 /* harmony export */ });
-var BASE_API_URL = 'http://127.0.0.1:8000/api';
+var BASE_API_URL = "http://127.0.0.1:8000/api";
 function getCardListApiUrl() {
   return "".concat(BASE_API_URL, "/card-list");
 }
@@ -2139,10 +2139,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-var listsContainer = document.getElementById('listsContainer');
-var boardsContainer = document.getElementById('boardsContainer');
-var addNewListButton = document.getElementById('addNewList');
-var newListTitleInput = document.getElementById('title');
+var listsContainer = document.getElementById("listsContainer");
+var boardsContainer = document.getElementById("boardsContainer");
+var addNewListButton = document.getElementById("addNewList");
+var newListTitleInput = document.getElementById("title");
 function addNewList() {
   var newList = {
     title: newListTitleInput.value
@@ -2158,9 +2158,9 @@ function addNewList() {
     return response.json();
   }).then(function (response) {
     displayLists([response.data]);
-    newListTitleInput.value = '';
+    newListTitleInput.value = "";
   })["catch"](function (error) {
-    return console.error('Error adding new list:', error);
+    return console.error("Error adding new list:", error);
   });
 }
 function fetchBoards() {
@@ -2169,7 +2169,7 @@ function fetchBoards() {
   }).then(function (response) {
     displayBoards([response.data]);
   })["catch"](function (error) {
-    return console.error('Error fetching lists:', error);
+    return console.error("Error fetching lists:", error);
   });
 }
 function addNewCard(listId) {
@@ -2189,9 +2189,9 @@ function addNewCard(listId) {
     return response.json();
   }).then(function (response) {
     displayCards([response.data], listId);
-    newCardTitleInput.value = '';
+    newCardTitleInput.value = "";
   })["catch"](function (error) {
-    return console.error('Error adding new list:', error);
+    return console.error("Error adding new list:", error);
   });
 }
 function deleteCard(cardId) {
@@ -2204,7 +2204,7 @@ function deleteCard(cardId) {
       cardElement.remove();
     }
   })["catch"](function (error) {
-    return console.error('Error adding new list:', error);
+    return console.error("Error adding new list:", error);
   });
 }
 function fetchLists() {
@@ -2213,7 +2213,7 @@ function fetchLists() {
   }).then(function (response) {
     displayLists(response.data);
   })["catch"](function (error) {
-    return console.error('Error fetching lists:', error);
+    return console.error("Error fetching lists:", error);
   });
 }
 function fetchCardsByList(listId) {
@@ -2222,12 +2222,12 @@ function fetchCardsByList(listId) {
   }).then(function (response) {
     displayCards(response.data, listId);
   })["catch"](function (error) {
-    return console.error('Error fetching cards:', error);
+    return console.error("Error fetching cards:", error);
   });
 }
 function patchParentList(cardId, parentListId) {
   var newParentList = {
-    'card_list_id': parentListId
+    card_list_id: parentListId
   };
   fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getPatchParentListApiUrl)(cardId), {
     method: "PATCH",
@@ -2236,7 +2236,7 @@ function patchParentList(cardId, parentListId) {
     },
     body: JSON.stringify(newParentList)
   })["catch"](function (error) {
-    return console.error('Error fetching cards:', error);
+    return console.error("Error fetching cards:", error);
   });
 }
 function displayBoards(boards) {
@@ -2266,41 +2266,41 @@ function displayAddNewCardForm(currentListId, listElement) {
   var newCardForm = _createAddNewCardFormElement(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
-  addCardButton.addEventListener('click', function () {
+  addCardButton.addEventListener("click", function () {
     return addNewCard(currentListId);
   });
 }
 function _createAddNewCardFormElement(parentListId) {
-  var newCardForm = document.createElement('form');
-  newCardForm.className = 'newCardForm';
+  var newCardForm = document.createElement("form");
+  newCardForm.className = "newCardForm";
   newCardForm.innerHTML = "\n    <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n    <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
   return newCardForm;
 }
 function _createBoardElement(board) {
-  var boardElement = document.createElement('div');
-  boardElement.className = 'board';
+  var boardElement = document.createElement("div");
+  boardElement.className = "board";
   newList.innerHTML = "<h2>".concat(board.name, "</h2>");
   return boardElement;
 }
 function _createListElement(currentList) {
-  var newList = document.createElement('div');
-  newList.className = 'list';
+  var newList = document.createElement("div");
+  newList.className = "list";
   newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
   return newList;
 }
 function _createCardElement(currentCard) {
-  var newCardElement = document.createElement('div');
-  newCardElement.className = 'card';
+  var newCardElement = document.createElement("div");
+  newCardElement.className = "card";
   newCardElement.id = "card-".concat(currentCard.id);
-  var cardTitle = document.createElement('h3');
+  var cardTitle = document.createElement("h3");
   cardTitle.textContent = currentCard.title;
   newCardElement.appendChild(cardTitle);
-  var deleteButton = document.createElement('button');
-  deleteButton.className = 'deleteCardButton';
-  var deleteIcon = document.createElement('i');
-  deleteIcon.className = 'fas fa-trash-alt';
+  var deleteButton = document.createElement("button");
+  deleteButton.className = "deleteCardButton";
+  var deleteIcon = document.createElement("i");
+  deleteIcon.className = "fas fa-trash-alt";
   deleteButton.appendChild(deleteIcon);
-  deleteButton.addEventListener('click', function () {
+  deleteButton.addEventListener("click", function () {
     return deleteCard(currentCard.id);
   });
   newCardElement.appendChild(deleteButton);
@@ -2308,38 +2308,38 @@ function _createCardElement(currentCard) {
   return newCardElement;
 }
 function _createCardsContainerElement(currentListId) {
-  var cardsContainerElement = document.createElement('div');
-  cardsContainerElement.className = 'cardsContainer';
+  var cardsContainerElement = document.createElement("div");
+  cardsContainerElement.className = "cardsContainer";
   cardsContainerElement.id = "cardsContainer-".concat(currentListId);
   _makeCardsContainerDroppable(cardsContainerElement);
   return cardsContainerElement;
 }
 function _makeCardDraggable(cardElement) {
   cardElement.draggable = true;
-  cardElement.addEventListener('dragstart', function (event) {
-    cardElement.classList.add('dragging');
-    event.dataTransfer.setData('text/plain', cardElement.id);
+  cardElement.addEventListener("dragstart", function (event) {
+    cardElement.classList.add("dragging");
+    event.dataTransfer.setData("text/plain", cardElement.id);
   });
-  cardElement.addEventListener('dragend', function () {
-    cardElement.classList.remove('dragging');
+  cardElement.addEventListener("dragend", function () {
+    cardElement.classList.remove("dragging");
   });
 }
 function _makeCardsContainerDroppable(cardContainerElement) {
-  cardContainerElement.addEventListener('dragover', function (event) {
+  cardContainerElement.addEventListener("dragover", function (event) {
     event.preventDefault();
-    var draggable = document.querySelector('.dragging');
+    var draggable = document.querySelector(".dragging");
     cardContainerElement.appendChild(draggable);
     console.log("AAAAA");
   });
-  cardContainerElement.addEventListener('drop', function (event) {
+  cardContainerElement.addEventListener("drop", function (event) {
     event.preventDefault();
-    var cardId = event.dataTransfer.getData('text/plain').split('-')[1];
-    var cardContainerId = cardContainerElement.id.split('-')[1];
+    var cardId = event.dataTransfer.getData("text/plain").split("-")[1];
+    var cardContainerId = cardContainerElement.id.split("-")[1];
     patchParentList(cardId, cardContainerId);
   });
 }
-addNewListButton.addEventListener('click', addNewList);
-document.addEventListener('DOMContentLoaded', fetchLists);
+addNewListButton.addEventListener("click", addNewList);
+document.addEventListener("DOMContentLoaded", fetchLists);
 
 /***/ }),
 
