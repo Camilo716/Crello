@@ -60,6 +60,44 @@ export class ElementBuilder {
     
         return newCardForm;
     }
+
+    createCardElement(currentCard, deleteCardFunction) {
+        let newCardElement = document.createElement("div");
+        newCardElement.className = "card";
+        newCardElement.id = `card-${currentCard.id}`;
+    
+        let cardTitle = document.createElement("h3");
+        cardTitle.textContent = currentCard.title;
+        newCardElement.appendChild(cardTitle);
+    
+        let deleteButton = document.createElement("button");
+        deleteButton.className = "deleteCardButton";
+    
+        let deleteIcon = document.createElement("i");
+        deleteIcon.className = "fas fa-trash-alt";
+        deleteButton.appendChild(deleteIcon);
+    
+        deleteButton.addEventListener("click", () => deleteCardFunction(currentCard.id));
+        newCardElement.appendChild(deleteButton);
+    
+        this._makeCardDraggable(newCardElement);
+    
+        return newCardElement;
+    }
+    
+    _makeCardDraggable(cardElement) {
+        cardElement.draggable = true;
+    
+        cardElement.addEventListener("dragstart", (event) => {
+            cardElement.classList.add("dragging");
+            event.dataTransfer.setData("text/plain", cardElement.id);
+        });
+    
+        cardElement.addEventListener("dragend", () => {
+            cardElement.classList.remove("dragging");
+        });
+    }
+
     _makeCardsContainerDroppable(cardContainerElement) {
         cardContainerElement.addEventListener("dragover", (event) => {
             event.preventDefault();

@@ -2103,7 +2103,7 @@ var ElementBuilder = /*#__PURE__*/function () {
     }
   }, {
     key: "createCardElement",
-    value: function createCardElement(currentCard) {
+    value: function createCardElement(currentCard, deleteCardFunction) {
       var newCardElement = document.createElement("div");
       newCardElement.className = "card";
       newCardElement.id = "card-".concat(currentCard.id);
@@ -2116,10 +2116,10 @@ var ElementBuilder = /*#__PURE__*/function () {
       deleteIcon.className = "fas fa-trash-alt";
       deleteButton.appendChild(deleteIcon);
       deleteButton.addEventListener("click", function () {
-        return deleteCard(currentCard.id);
+        return deleteCardFunction(currentCard.id);
       });
       newCardElement.appendChild(deleteButton);
-      _makeCardDraggable(newCardElement);
+      this._makeCardDraggable(newCardElement);
       return newCardElement;
     }
   }, {
@@ -2129,6 +2129,18 @@ var ElementBuilder = /*#__PURE__*/function () {
       newCardForm.className = "newCardForm";
       newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n        ");
       return newCardForm;
+    }
+  }, {
+    key: "_makeCardDraggable",
+    value: function _makeCardDraggable(cardElement) {
+      cardElement.draggable = true;
+      cardElement.addEventListener("dragstart", function (event) {
+        cardElement.classList.add("dragging");
+        event.dataTransfer.setData("text/plain", cardElement.id);
+      });
+      cardElement.addEventListener("dragend", function () {
+        cardElement.classList.remove("dragging");
+      });
     }
   }, {
     key: "_makeCardsContainerDroppable",
@@ -2371,7 +2383,7 @@ function displayLists(lists) {
 function displayCards(cards, parentcardContainerId) {
   var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
   cards.forEach(function (currentCard) {
-    var newCard = _createCardElement(currentCard);
+    var newCard = elementBuilder.createCardElement(currentCard, deleteCard);
     cardsContainerElement.appendChild(newCard);
   });
 }
@@ -2381,35 +2393,6 @@ function displayAddNewCardForm(currentListId, listElement) {
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener("click", function () {
     return addNewCard(currentListId);
-  });
-}
-function _createCardElement(currentCard) {
-  var newCardElement = document.createElement("div");
-  newCardElement.className = "card";
-  newCardElement.id = "card-".concat(currentCard.id);
-  var cardTitle = document.createElement("h3");
-  cardTitle.textContent = currentCard.title;
-  newCardElement.appendChild(cardTitle);
-  var deleteButton = document.createElement("button");
-  deleteButton.className = "deleteCardButton";
-  var deleteIcon = document.createElement("i");
-  deleteIcon.className = "fas fa-trash-alt";
-  deleteButton.appendChild(deleteIcon);
-  deleteButton.addEventListener("click", function () {
-    return deleteCard(currentCard.id);
-  });
-  newCardElement.appendChild(deleteButton);
-  _makeCardDraggable(newCardElement);
-  return newCardElement;
-}
-function _makeCardDraggable(cardElement) {
-  cardElement.draggable = true;
-  cardElement.addEventListener("dragstart", function (event) {
-    cardElement.classList.add("dragging");
-    event.dataTransfer.setData("text/plain", cardElement.id);
-  });
-  cardElement.addEventListener("dragend", function () {
-    cardElement.classList.remove("dragging");
   });
 }
 addNewListButton.addEventListener("click", addNewList);
