@@ -16,13 +16,13 @@
 </head>
 <body>
     <nav>
-        <div class="boardsContainer">
-            <h1>Your Board</h1>
+        <div class='boardsContainer' id='boardsContainer'>
+            <!-- Boards will be dynamically added here -->
         </div>
     </nav>
     <div class='container'>
         <div class='listsContainer' id='listsContainer'>
-            <!-- Lists will be dynamically added here -->
+            <!-- Lists and their cards will be dynamically added here -->
         </div>
         <div class='newListContainer'>
             <form action="POST" class="newListForm">

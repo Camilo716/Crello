@@ -2145,7 +2145,8 @@ var addNewListButton = document.getElementById("addNewList");
 var newListTitleInput = document.getElementById("title");
 function addNewList() {
   var newList = {
-    title: newListTitleInput.value
+    title: newListTitleInput.value,
+    board_id: 1
   };
   fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
     method: "POST",
@@ -2164,12 +2165,18 @@ function addNewList() {
   });
 }
 function fetchBoards() {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)()).then(function (response) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)(), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+  }).then(function (response) {
     return response.json();
   }).then(function (response) {
-    displayBoards([response.data]);
+    displayBoards(response.data);
   })["catch"](function (error) {
-    return console.error("Error fetching lists:", error);
+    return console.error("Error fetching boards:", error);
   });
 }
 function addNewCard(listId) {
@@ -2208,7 +2215,13 @@ function deleteCard(cardId) {
   });
 }
 function fetchLists() {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)()).then(function (response) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    }
+  }).then(function (response) {
     return response.json();
   }).then(function (response) {
     displayLists(response.data);
@@ -2240,6 +2253,7 @@ function patchParentList(cardId, parentListId) {
   });
 }
 function displayBoards(boards) {
+  console.log(boards);
   boards.forEach(function (currentBoard) {
     var boardElement = _createBoardElement(currentBoard);
     boardsContainer.appendChild(boardElement);
@@ -2279,7 +2293,8 @@ function _createAddNewCardFormElement(parentListId) {
 function _createBoardElement(board) {
   var boardElement = document.createElement("div");
   boardElement.className = "board";
-  newList.innerHTML = "<h2>".concat(board.name, "</h2>");
+  boardElement.innerHTML = "<h1>".concat(board.name, "</h1>");
+  boardElement.id = "board-".concat(board.id);
   return boardElement;
 }
 function _createListElement(currentList) {
@@ -2338,7 +2353,10 @@ function _makeCardsContainerDroppable(cardContainerElement) {
   });
 }
 addNewListButton.addEventListener("click", addNewList);
-document.addEventListener("DOMContentLoaded", fetchLists);
+document.addEventListener("DOMContentLoaded", function () {
+  fetchBoards();
+  fetchLists();
+});
 
 /***/ }),
 

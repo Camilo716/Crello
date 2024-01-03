@@ -17,6 +17,7 @@ const newListTitleInput = document.getElementById("title");
 function addNewList() {
     let newList = {
         title: newListTitleInput.value,
+        board_id: 1,
     };
 
     fetch(getCardListApiUrl(), {
@@ -39,12 +40,18 @@ function addNewList() {
 }
 
 function fetchBoards() {
-    fetch(getBoardApiUrl())
+    fetch(getBoardApiUrl(), {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+    })
         .then((response) => response.json())
         .then((response) => {
-            displayBoards([response.data]);
+            displayBoards(response.data);
         })
-        .catch((error) => console.error("Error fetching lists:", error));
+        .catch((error) => console.error("Error fetching boards:", error));
 }
 
 function addNewCard(listId) {
@@ -90,8 +97,15 @@ function deleteCard(cardId) {
 }
 
 function fetchLists() {
-    fetch(getCardListApiUrl())
-        .then((response) => response.json())
+    fetch(getCardListApiUrl(), { 
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+        },
+    })
+        .then((response) => 
+        response.json())
         .then((response) => {
             displayLists(response.data);
         })
@@ -120,6 +134,7 @@ function patchParentList(cardId, parentListId) {
 }
 
 function displayBoards(boards) {
+    console.log(boards);
     boards.forEach((currentBoard) => {
         let boardElement = _createBoardElement(currentBoard);
         boardsContainer.appendChild(boardElement);
@@ -176,7 +191,8 @@ function _createAddNewCardFormElement(parentListId) {
 function _createBoardElement(board) {
     let boardElement = document.createElement("div");
     boardElement.className = "board";
-    newList.innerHTML = `<h2>${board.name}</h2>`;
+    boardElement.innerHTML = `<h1>${board.name}</h1>`;
+    boardElement.id = `board-${board.id}`;
 
     return boardElement;
 }
@@ -252,4 +268,8 @@ function _makeCardsContainerDroppable(cardContainerElement) {
 }
 
 addNewListButton.addEventListener("click", addNewList);
-document.addEventListener("DOMContentLoaded", fetchLists);
+document.addEventListener("DOMContentLoaded", function ()
+{
+    fetchBoards();
+    fetchLists();
+});
