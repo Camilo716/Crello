@@ -2054,6 +2054,103 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/ElementBuilder.js":
+/*!****************************************!*\
+  !*** ./resources/js/ElementBuilder.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ElementBuilder: () => (/* binding */ ElementBuilder)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var ElementBuilder = /*#__PURE__*/function () {
+  function ElementBuilder() {
+    _classCallCheck(this, ElementBuilder);
+  }
+  _createClass(ElementBuilder, [{
+    key: "createBoardElement",
+    value: function createBoardElement(board) {
+      var boardElement = document.createElement("div");
+      boardElement.className = "board";
+      boardElement.innerHTML = "<h1>".concat(board.name, "</h1>");
+      boardElement.id = "board-".concat(board.id);
+      return boardElement;
+    }
+  }, {
+    key: "createListElement",
+    value: function createListElement(currentList) {
+      var newList = document.createElement("div");
+      newList.className = "list";
+      newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
+      return newList;
+    }
+  }, {
+    key: "createCardsContainerElement",
+    value: function createCardsContainerElement(currentListId) {
+      var cardsContainerElement = document.createElement("div");
+      cardsContainerElement.className = "cardsContainer";
+      cardsContainerElement.id = "cardsContainer-".concat(currentListId);
+      this._makeCardsContainerDroppable(cardsContainerElement);
+      return cardsContainerElement;
+    }
+  }, {
+    key: "createCardElement",
+    value: function createCardElement(currentCard) {
+      var newCardElement = document.createElement("div");
+      newCardElement.className = "card";
+      newCardElement.id = "card-".concat(currentCard.id);
+      var cardTitle = document.createElement("h3");
+      cardTitle.textContent = currentCard.title;
+      newCardElement.appendChild(cardTitle);
+      var deleteButton = document.createElement("button");
+      deleteButton.className = "deleteCardButton";
+      var deleteIcon = document.createElement("i");
+      deleteIcon.className = "fas fa-trash-alt";
+      deleteButton.appendChild(deleteIcon);
+      deleteButton.addEventListener("click", function () {
+        return deleteCard(currentCard.id);
+      });
+      newCardElement.appendChild(deleteButton);
+      _makeCardDraggable(newCardElement);
+      return newCardElement;
+    }
+  }, {
+    key: "createAddNewCardFormElement",
+    value: function createAddNewCardFormElement(parentListId) {
+      var newCardForm = document.createElement("form");
+      newCardForm.className = "newCardForm";
+      newCardForm.innerHTML = "\n        <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n        <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n        ");
+      return newCardForm;
+    }
+  }, {
+    key: "_makeCardsContainerDroppable",
+    value: function _makeCardsContainerDroppable(cardContainerElement) {
+      cardContainerElement.addEventListener("dragover", function (event) {
+        event.preventDefault();
+        var draggable = document.querySelector(".dragging");
+        cardContainerElement.appendChild(draggable);
+      });
+      cardContainerElement.addEventListener("drop", function (event) {
+        event.preventDefault();
+        var cardId = event.dataTransfer.getData("text/plain").split("-")[1];
+        var cardContainerId = cardContainerElement.id.split("-")[1];
+        patchParentList(cardId, cardContainerId);
+      });
+    }
+  }]);
+  return ElementBuilder;
+}();
+
+/***/ }),
+
 /***/ "./resources/js/apiConfig.js":
 /*!***********************************!*\
   !*** ./resources/js/apiConfig.js ***!
@@ -2136,9 +2233,12 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
+/* harmony import */ var _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ElementBuilder */ "./resources/js/ElementBuilder.js");
+/* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
+
+var elementBuilder = new _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder();
 var listsContainer = document.getElementById("listsContainer");
 var boardsContainer = document.getElementById("boardsContainer");
 var addNewListButton = document.getElementById("addNewList");
@@ -2148,7 +2248,7 @@ function addNewList() {
     title: newListTitleInput.value,
     board_id: 1
   };
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getCardListApiUrl)(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -2165,7 +2265,7 @@ function addNewList() {
   });
 }
 function fetchBoards() {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)(), {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getBoardApiUrl)(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -2181,7 +2281,7 @@ function fetchBoards() {
 }
 function addNewCard(listId) {
   var newCardTitleInput = document.getElementById("addCardTitleInput-".concat(listId));
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardApiUrl)(), {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getCardApiUrl)(), {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -2202,7 +2302,7 @@ function addNewCard(listId) {
   });
 }
 function deleteCard(cardId) {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByIdApiUrl)(cardId), {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getCardsByIdApiUrl)(cardId), {
     method: "DELETE"
   }).then(function (response) {
     if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
@@ -2215,7 +2315,7 @@ function deleteCard(cardId) {
   });
 }
 function fetchLists() {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getCardListApiUrl)(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -2230,7 +2330,7 @@ function fetchLists() {
   });
 }
 function fetchCardsByList(listId) {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId)).then(function (response) {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getCardsByListApiUrl)(listId)).then(function (response) {
     return response.json();
   }).then(function (response) {
     displayCards(response.data, listId);
@@ -2242,7 +2342,7 @@ function patchParentList(cardId, parentListId) {
   var newParentList = {
     card_list_id: parentListId
   };
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getPatchParentListApiUrl)(cardId), {
+  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_1__.getPatchParentListApiUrl)(cardId), {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json"
@@ -2253,17 +2353,16 @@ function patchParentList(cardId, parentListId) {
   });
 }
 function displayBoards(boards) {
-  console.log(boards);
   boards.forEach(function (currentBoard) {
-    var boardElement = _createBoardElement(currentBoard);
+    var boardElement = elementBuilder.createBoardElement(currentBoard);
     boardsContainer.appendChild(boardElement);
   });
 }
 function displayLists(lists) {
   lists.forEach(function (currentList) {
-    var newList = _createListElement(currentList);
+    var newList = elementBuilder.createListElement(currentList);
     listsContainer.appendChild(newList);
-    var cardsContainerElement = _createCardsContainerElement(currentList.id);
+    var cardsContainerElement = elementBuilder.createCardsContainerElement(currentList.id);
     newList.appendChild(cardsContainerElement);
     fetchCardsByList(currentList.id);
     displayAddNewCardForm(currentList.id, newList);
@@ -2277,31 +2376,12 @@ function displayCards(cards, parentcardContainerId) {
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = _createAddNewCardFormElement(currentListId);
+  var newCardForm = elementBuilder.createAddNewCardFormElement(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener("click", function () {
     return addNewCard(currentListId);
   });
-}
-function _createAddNewCardFormElement(parentListId) {
-  var newCardForm = document.createElement("form");
-  newCardForm.className = "newCardForm";
-  newCardForm.innerHTML = "\n    <input type=\"text\" placeholder=\"Enter card title...\" id=\"addCardTitleInput-".concat(parentListId, "\">\n    <button class=\"addNewCard\" type=\"button\" id=\"addCardButton-").concat(parentListId, "\">Add Card</button>\n    ");
-  return newCardForm;
-}
-function _createBoardElement(board) {
-  var boardElement = document.createElement("div");
-  boardElement.className = "board";
-  boardElement.innerHTML = "<h1>".concat(board.name, "</h1>");
-  boardElement.id = "board-".concat(board.id);
-  return boardElement;
-}
-function _createListElement(currentList) {
-  var newList = document.createElement("div");
-  newList.className = "list";
-  newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
-  return newList;
 }
 function _createCardElement(currentCard) {
   var newCardElement = document.createElement("div");
@@ -2322,13 +2402,6 @@ function _createCardElement(currentCard) {
   _makeCardDraggable(newCardElement);
   return newCardElement;
 }
-function _createCardsContainerElement(currentListId) {
-  var cardsContainerElement = document.createElement("div");
-  cardsContainerElement.className = "cardsContainer";
-  cardsContainerElement.id = "cardsContainer-".concat(currentListId);
-  _makeCardsContainerDroppable(cardsContainerElement);
-  return cardsContainerElement;
-}
 function _makeCardDraggable(cardElement) {
   cardElement.draggable = true;
   cardElement.addEventListener("dragstart", function (event) {
@@ -2337,19 +2410,6 @@ function _makeCardDraggable(cardElement) {
   });
   cardElement.addEventListener("dragend", function () {
     cardElement.classList.remove("dragging");
-  });
-}
-function _makeCardsContainerDroppable(cardContainerElement) {
-  cardContainerElement.addEventListener("dragover", function (event) {
-    event.preventDefault();
-    var draggable = document.querySelector(".dragging");
-    cardContainerElement.appendChild(draggable);
-  });
-  cardContainerElement.addEventListener("drop", function (event) {
-    event.preventDefault();
-    var cardId = event.dataTransfer.getData("text/plain").split("-")[1];
-    var cardContainerId = cardContainerElement.id.split("-")[1];
-    patchParentList(cardId, cardContainerId);
   });
 }
 addNewListButton.addEventListener("click", addNewList);

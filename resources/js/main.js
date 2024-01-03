@@ -1,5 +1,6 @@
 require("./bootstrap");
 
+import { ElementBuilder } from "./ElementBuilder";
 import {
     getCardApiUrl,
     getCardListApiUrl,
@@ -9,6 +10,7 @@ import {
     getBoardApiUrl,
 } from "./apiConfig";
 
+const elementBuilder = new ElementBuilder();
 const listsContainer = document.getElementById("listsContainer");
 const boardsContainer = document.getElementById("boardsContainer");
 const addNewListButton = document.getElementById("addNewList");
@@ -134,21 +136,18 @@ function patchParentList(cardId, parentListId) {
 }
 
 function displayBoards(boards) {
-    console.log(boards);
     boards.forEach((currentBoard) => {
-        let boardElement = _createBoardElement(currentBoard);
+        let boardElement = elementBuilder.createBoardElement(currentBoard);
         boardsContainer.appendChild(boardElement);
     });
 }
 
 function displayLists(lists) {
     lists.forEach((currentList) => {
-        let newList = _createListElement(currentList);
+        let newList = elementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
 
-        let cardsContainerElement = _createCardsContainerElement(
-            currentList.id
-        );
+        let cardsContainerElement = elementBuilder.createCardsContainerElement(currentList.id);
         newList.appendChild(cardsContainerElement);
 
         fetchCardsByList(currentList.id);
@@ -167,41 +166,13 @@ function displayCards(cards, parentcardContainerId) {
 }
 
 function displayAddNewCardForm(currentListId, listElement) {
-    let newCardForm = _createAddNewCardFormElement(currentListId);
+    let newCardForm = elementBuilder.createAddNewCardFormElement(currentListId);
     listElement.appendChild(newCardForm);
 
     let addCardButton = document.getElementById(
         `addCardButton-${currentListId}`
     );
     addCardButton.addEventListener("click", () => addNewCard(currentListId));
-}
-
-function _createAddNewCardFormElement(parentListId) {
-    let newCardForm = document.createElement("form");
-    newCardForm.className = "newCardForm";
-
-    newCardForm.innerHTML = `
-    <input type="text" placeholder="Enter card title..." id="addCardTitleInput-${parentListId}">
-    <button class="addNewCard" type="button" id="addCardButton-${parentListId}">Add Card</button>
-    `;
-
-    return newCardForm;
-}
-
-function _createBoardElement(board) {
-    let boardElement = document.createElement("div");
-    boardElement.className = "board";
-    boardElement.innerHTML = `<h1>${board.name}</h1>`;
-    boardElement.id = `board-${board.id}`;
-
-    return boardElement;
-}
-
-function _createListElement(currentList) {
-    let newList = document.createElement("div");
-    newList.className = "list";
-    newList.innerHTML = `<h2>${currentList.title}</h2>`;
-    return newList;
 }
 
 function _createCardElement(currentCard) {
@@ -228,16 +199,6 @@ function _createCardElement(currentCard) {
     return newCardElement;
 }
 
-function _createCardsContainerElement(currentListId) {
-    let cardsContainerElement = document.createElement("div");
-    cardsContainerElement.className = "cardsContainer";
-    cardsContainerElement.id = `cardsContainer-${currentListId}`;
-
-    _makeCardsContainerDroppable(cardsContainerElement);
-
-    return cardsContainerElement;
-}
-
 function _makeCardDraggable(cardElement) {
     cardElement.draggable = true;
 
@@ -248,22 +209,6 @@ function _makeCardDraggable(cardElement) {
 
     cardElement.addEventListener("dragend", () => {
         cardElement.classList.remove("dragging");
-    });
-}
-
-function _makeCardsContainerDroppable(cardContainerElement) {
-    cardContainerElement.addEventListener("dragover", (event) => {
-        event.preventDefault();
-        const draggable = document.querySelector(".dragging");
-        cardContainerElement.appendChild(draggable);
-    });
-
-    cardContainerElement.addEventListener("drop", (event) => {
-        event.preventDefault();
-        const cardId = event.dataTransfer.getData("text/plain").split("-")[1];
-        const cardContainerId = cardContainerElement.id.split("-")[1];
-
-        patchParentList(cardId, cardContainerId);
     });
 }
 
