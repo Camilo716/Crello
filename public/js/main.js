@@ -2280,7 +2280,7 @@ function fetchBoards() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json"
+      Accept: "application/json"
     }
   }).then(function (response) {
     return response.json();
@@ -2330,7 +2330,7 @@ function fetchLists() {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      "Accept": "application/json"
+      Accept: "application/json"
     }
   }).then(function (response) {
     return response.json();

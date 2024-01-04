@@ -45,7 +45,7 @@ function fetchBoards() {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
         },
     })
         .then((response) => response.json())
@@ -98,15 +98,14 @@ function deleteCard(cardId) {
 }
 
 function fetchLists() {
-    fetch(getCardListApiUrl(), { 
+    fetch(getCardListApiUrl(), {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
+            Accept: "application/json",
         },
     })
-        .then((response) => 
-        response.json())
+        .then((response) => response.json())
         .then((response) => {
             displayLists(response.data);
         })
@@ -146,7 +145,10 @@ function displayLists(lists) {
         let newList = ElementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
 
-        let cardsContainerElement = ElementBuilder.createCardsContainerElement(currentList.id, patchParentList);
+        let cardsContainerElement = ElementBuilder.createCardsContainerElement(
+            currentList.id,
+            patchParentList
+        );
         newList.appendChild(cardsContainerElement);
 
         fetchCardsByList(currentList.id);
@@ -175,8 +177,7 @@ function displayAddNewCardForm(currentListId, listElement) {
 }
 
 addNewListButton.addEventListener("click", addNewList);
-document.addEventListener("DOMContentLoaded", function ()
-{
+document.addEventListener("DOMContentLoaded", function () {
     fetchBoards();
     fetchLists();
 });
