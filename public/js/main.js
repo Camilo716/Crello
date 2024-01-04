@@ -2094,11 +2094,11 @@ var ElementBuilder = /*#__PURE__*/function () {
     }
   }, {
     key: "createCardsContainerElement",
-    value: function createCardsContainerElement(currentListId) {
+    value: function createCardsContainerElement(currentListId, patchParentListFunction) {
       var cardsContainerElement = document.createElement("div");
       cardsContainerElement.className = "cardsContainer";
       cardsContainerElement.id = "cardsContainer-".concat(currentListId);
-      this._makeCardsContainerDroppable(cardsContainerElement);
+      this._makeCardsContainerDroppable(cardsContainerElement, patchParentListFunction);
       return cardsContainerElement;
     }
   }, {
@@ -2144,7 +2144,7 @@ var ElementBuilder = /*#__PURE__*/function () {
     }
   }, {
     key: "_makeCardsContainerDroppable",
-    value: function _makeCardsContainerDroppable(cardContainerElement) {
+    value: function _makeCardsContainerDroppable(cardContainerElement, patchParentListFunction) {
       cardContainerElement.addEventListener("dragover", function (event) {
         event.preventDefault();
         var draggable = document.querySelector(".dragging");
@@ -2154,7 +2154,7 @@ var ElementBuilder = /*#__PURE__*/function () {
         event.preventDefault();
         var cardId = event.dataTransfer.getData("text/plain").split("-")[1];
         var cardContainerId = cardContainerElement.id.split("-")[1];
-        patchParentList(cardId, cardContainerId);
+        patchParentListFunction(cardId, cardContainerId);
       });
     }
   }]);
@@ -2373,7 +2373,7 @@ function displayLists(lists) {
   lists.forEach(function (currentList) {
     var newList = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createListElement(currentList);
     listsContainer.appendChild(newList);
-    var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createCardsContainerElement(currentList.id);
+    var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createCardsContainerElement(currentList.id, patchParentList);
     newList.appendChild(cardsContainerElement);
     fetchCardsByList(currentList.id);
     displayAddNewCardForm(currentList.id, newList);

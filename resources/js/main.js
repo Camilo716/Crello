@@ -146,7 +146,7 @@ function displayLists(lists) {
         let newList = ElementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
 
-        let cardsContainerElement = ElementBuilder.createCardsContainerElement(currentList.id);
+        let cardsContainerElement = ElementBuilder.createCardsContainerElement(currentList.id, patchParentList);
         newList.appendChild(cardsContainerElement);
 
         fetchCardsByList(currentList.id);

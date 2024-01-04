@@ -15,12 +15,12 @@ export class ElementBuilder {
         return newList;
     }
 
-    static createCardsContainerElement(currentListId) {
+    static createCardsContainerElement(currentListId, patchParentListFunction) {
         let cardsContainerElement = document.createElement("div");
         cardsContainerElement.className = "cardsContainer";
         cardsContainerElement.id = `cardsContainer-${currentListId}`;
     
-        this._makeCardsContainerDroppable(cardsContainerElement);
+        this._makeCardsContainerDroppable(cardsContainerElement, patchParentListFunction);
     
         return cardsContainerElement;
     }
@@ -98,7 +98,7 @@ export class ElementBuilder {
         });
     }
 
-    static _makeCardsContainerDroppable(cardContainerElement) {
+    static _makeCardsContainerDroppable(cardContainerElement, patchParentListFunction) {
         cardContainerElement.addEventListener("dragover", (event) => {
             event.preventDefault();
             const draggable = document.querySelector(".dragging");
@@ -110,7 +110,7 @@ export class ElementBuilder {
             const cardId = event.dataTransfer.getData("text/plain").split("-")[1];
             const cardContainerId = cardContainerElement.id.split("-")[1];
     
-            patchParentList(cardId, cardContainerId);
+            patchParentListFunction(cardId, cardContainerId);
         });
     }
 }
