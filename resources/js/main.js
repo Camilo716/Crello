@@ -10,7 +10,6 @@ import {
     getBoardApiUrl,
 } from "./apiConfig";
 
-const elementBuilder = new ElementBuilder();
 const listsContainer = document.getElementById("listsContainer");
 const boardsContainer = document.getElementById("boardsContainer");
 const addNewListButton = document.getElementById("addNewList");
@@ -137,17 +136,17 @@ function patchParentList(cardId, parentListId) {
 
 function displayBoards(boards) {
     boards.forEach((currentBoard) => {
-        let boardElement = elementBuilder.createBoardElement(currentBoard);
+        let boardElement = ElementBuilder.createBoardElement(currentBoard);
         boardsContainer.appendChild(boardElement);
     });
 }
 
 function displayLists(lists) {
     lists.forEach((currentList) => {
-        let newList = elementBuilder.createListElement(currentList);
+        let newList = ElementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
 
-        let cardsContainerElement = elementBuilder.createCardsContainerElement(currentList.id);
+        let cardsContainerElement = ElementBuilder.createCardsContainerElement(currentList.id);
         newList.appendChild(cardsContainerElement);
 
         fetchCardsByList(currentList.id);
@@ -160,13 +159,13 @@ function displayCards(cards, parentcardContainerId) {
         `cardsContainer-${parentcardContainerId}`
     );
     cards.forEach((currentCard) => {
-        let newCard = elementBuilder.createCardElement(currentCard, deleteCard);
+        let newCard = ElementBuilder.createCardElement(currentCard, deleteCard);
         cardsContainerElement.appendChild(newCard);
     });
 }
 
 function displayAddNewCardForm(currentListId, listElement) {
-    let newCardForm = elementBuilder.createAddNewCardFormElement(currentListId);
+    let newCardForm = ElementBuilder.createAddNewCardFormElement(currentListId);
     listElement.appendChild(newCardForm);
 
     let addCardButton = document.getElementById(

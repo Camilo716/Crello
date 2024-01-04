@@ -1,5 +1,5 @@
 export class ElementBuilder {
-    createBoardElement(board) {
+    static createBoardElement(board) {
         let boardElement = document.createElement("div");
         boardElement.className = "board";
         boardElement.innerHTML = `<h1>${board.name}</h1>`;
@@ -8,14 +8,14 @@ export class ElementBuilder {
         return boardElement;
     }
 
-    createListElement(currentList) {
+    static createListElement(currentList) {
         let newList = document.createElement("div");
         newList.className = "list";
         newList.innerHTML = `<h2>${currentList.title}</h2>`;
         return newList;
     }
 
-    createCardsContainerElement(currentListId) {
+    static createCardsContainerElement(currentListId) {
         let cardsContainerElement = document.createElement("div");
         cardsContainerElement.className = "cardsContainer";
         cardsContainerElement.id = `cardsContainer-${currentListId}`;
@@ -25,7 +25,7 @@ export class ElementBuilder {
         return cardsContainerElement;
     }
 
-    createCardElement(currentCard) {
+    static createCardElement(currentCard) {
         let newCardElement = document.createElement("div");
         newCardElement.className = "card";
         newCardElement.id = `card-${currentCard.id}`;
@@ -49,7 +49,7 @@ export class ElementBuilder {
         return newCardElement;
     }
 
-    createAddNewCardFormElement(parentListId) {
+    static createAddNewCardFormElement(parentListId) {
         let newCardForm = document.createElement("form");
         newCardForm.className = "newCardForm";
     
@@ -61,7 +61,7 @@ export class ElementBuilder {
         return newCardForm;
     }
 
-    createCardElement(currentCard, deleteCardFunction) {
+    static createCardElement(currentCard, deleteCardFunction) {
         let newCardElement = document.createElement("div");
         newCardElement.className = "card";
         newCardElement.id = `card-${currentCard.id}`;
@@ -85,7 +85,7 @@ export class ElementBuilder {
         return newCardElement;
     }
     
-    _makeCardDraggable(cardElement) {
+    static _makeCardDraggable(cardElement) {
         cardElement.draggable = true;
     
         cardElement.addEventListener("dragstart", (event) => {
@@ -98,7 +98,7 @@ export class ElementBuilder {
         });
     }
 
-    _makeCardsContainerDroppable(cardContainerElement) {
+    static _makeCardsContainerDroppable(cardContainerElement) {
         cardContainerElement.addEventListener("dragover", (event) => {
             event.preventDefault();
             const draggable = document.querySelector(".dragging");

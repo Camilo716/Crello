@@ -2075,7 +2075,7 @@ var ElementBuilder = /*#__PURE__*/function () {
   function ElementBuilder() {
     _classCallCheck(this, ElementBuilder);
   }
-  _createClass(ElementBuilder, [{
+  _createClass(ElementBuilder, null, [{
     key: "createBoardElement",
     value: function createBoardElement(board) {
       var boardElement = document.createElement("div");
@@ -2250,7 +2250,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
-var elementBuilder = new _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder();
 var listsContainer = document.getElementById("listsContainer");
 var boardsContainer = document.getElementById("boardsContainer");
 var addNewListButton = document.getElementById("addNewList");
@@ -2366,15 +2365,15 @@ function patchParentList(cardId, parentListId) {
 }
 function displayBoards(boards) {
   boards.forEach(function (currentBoard) {
-    var boardElement = elementBuilder.createBoardElement(currentBoard);
+    var boardElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createBoardElement(currentBoard);
     boardsContainer.appendChild(boardElement);
   });
 }
 function displayLists(lists) {
   lists.forEach(function (currentList) {
-    var newList = elementBuilder.createListElement(currentList);
+    var newList = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createListElement(currentList);
     listsContainer.appendChild(newList);
-    var cardsContainerElement = elementBuilder.createCardsContainerElement(currentList.id);
+    var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createCardsContainerElement(currentList.id);
     newList.appendChild(cardsContainerElement);
     fetchCardsByList(currentList.id);
     displayAddNewCardForm(currentList.id, newList);
@@ -2383,12 +2382,12 @@ function displayLists(lists) {
 function displayCards(cards, parentcardContainerId) {
   var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
   cards.forEach(function (currentCard) {
-    var newCard = elementBuilder.createCardElement(currentCard, deleteCard);
+    var newCard = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createCardElement(currentCard, deleteCard);
     cardsContainerElement.appendChild(newCard);
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = elementBuilder.createAddNewCardFormElement(currentListId);
+  var newCardForm = _ElementBuilder__WEBPACK_IMPORTED_MODULE_0__.ElementBuilder.createAddNewCardFormElement(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener("click", function () {
