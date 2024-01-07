@@ -21,7 +21,8 @@
 }
 
 h1 {
-    color:#FFFFFF
+    color:#FFFFFF;
+    font-size: 23px
 }
 
 h2 {
@@ -41,8 +42,16 @@ body {
 nav {
     display: flex;
     align-items: center;
-    height: 5vh;
-    background-color: #060606;
+    height: 7vh;
+    background-color: #1D2125;
+    padding: 15px;
+}
+
+.navBoards {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
 .boards {
@@ -53,6 +62,17 @@ nav {
     justify-content: left;
 }
 
+.boardsContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.newBoardForm {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
 
 .container {
     display: flex;
@@ -95,25 +115,26 @@ nav {
     border-radius: 10px;
 }
 
-.newListForm input {
+.formInput {
+    height: 3vh;
     border-radius: 1%;
     background-color: #3F3F3F;
     border: 2px solid transparent;
-    font-size: 18px;
+    font-size: 15px;
     padding: 8px;
     color: #FFFFFF;
     border-radius: 4px;
-} 
+}
 
-.newListForm input[type=text]::-moz-placeholder {
-    color: #FFFFFF
-} 
-
-.newListForm input[type=text]::placeholder {
+.formInput[type=text]::-moz-placeholder {
     color: #FFFFFF
 }
 
-.newListForm input[type=text]:focus {
+.formInput[type=text]::placeholder {
+    color: #FFFFFF
+}
+
+.formInput[type=text]:focus {
     background-color: transparent;
     transition: 0.2s ease;
     outline: 0 transparent;
@@ -123,8 +144,9 @@ nav {
 
 .addNewList {
     font-size: 16px;
-    height: 4vh;
+    height: 3vh;
     width: 40%;
+    padding: 5px 10px;
     background-color: #579DFF;
     border: none;
     cursor: pointer;
@@ -178,11 +200,11 @@ nav {
     padding: 8px;
     color: #FFFFFF;
     border-radius: 10px;
-} 
+}
 
 .newCardForm input[type=text]::-moz-placeholder {
     color: #6b6b6b
-} 
+}
 
 .newCardForm input[type=text]::placeholder {
     color: #6b6b6b
