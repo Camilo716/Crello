@@ -37,7 +37,7 @@ class CardListController extends Controller
         $lists = CardList::where('board_id', '=', $boardId)->get();
 
         return response()->json([
-            'message' => 'Successfully get cards by list',
+            'message' => 'Successfully get lists by board',
             'data' => $lists],
             Response::HTTP_OK);
     }
