@@ -2105,12 +2105,24 @@ var CardClient = /*#__PURE__*/function () {
       });
     }
   }, {
+    key: "fetchCardsByList",
+    value: function fetchCardsByList(listId) {
+      var _this2 = this;
+      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId)).then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        _this2.displayCards(response.data, listId);
+      })["catch"](function (error) {
+        return console.error("Error fetching cards:", error);
+      });
+    }
+  }, {
     key: "displayCards",
     value: function displayCards(cards, parentcardContainerId) {
-      var _this2 = this;
+      var _this3 = this;
       var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
       cards.forEach(function (currentCard) {
-        var newCard = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardElement(currentCard, _this2.deleteCard);
+        var newCard = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardElement(currentCard, _this3.deleteCard);
         cardsContainerElement.appendChild(newCard);
       });
     }
@@ -2127,6 +2139,22 @@ var CardClient = /*#__PURE__*/function () {
         }
       })["catch"](function (error) {
         return console.error("Error adding new list:", error);
+      });
+    }
+  }, {
+    key: "patchParentList",
+    value: function patchParentList(cardId, parentListId) {
+      var newParentList = {
+        card_list_id: parentListId
+      };
+      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getPatchParentListApiUrl)(cardId), {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newParentList)
+      })["catch"](function (error) {
+        return console.error("Error fetching cards:", error);
       });
     }
   }]);
@@ -2256,13 +2284,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   ListClient: () => (/* binding */ ListClient)
 /* harmony export */ });
 /* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
-/* harmony import */ var _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ElementBuilder */ "./resources/js/ElementBuilder.js");
+/* harmony import */ var _CardClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CardClient */ "./resources/js/CardClient.js");
+/* harmony import */ var _ElementBuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ElementBuilder */ "./resources/js/ElementBuilder.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 var newListTitleInput = document.getElementById("title");
@@ -2298,9 +2328,9 @@ var ListClient = /*#__PURE__*/function () {
     key: "displayLists",
     value: function displayLists(lists, fetchCardsByListsFunction, displayCardFormFunction, patchCardParentListFunction) {
       lists.forEach(function (currentList) {
-        var newList = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createListElement(currentList);
+        var newList = _ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
-        var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardsContainerElement(currentList.id, patchCardParentListFunction);
+        var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createCardsContainerElement(currentList.id, patchCardParentListFunction);
         newList.appendChild(cardsContainerElement);
         fetchCardsByListsFunction(currentList.id);
         displayCardFormFunction(currentList.id, newList);
@@ -2406,7 +2436,6 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 var listsContainer = document.getElementById("listsContainer");
 var boardsContainer = document.getElementById("boardsContainer");
 var addNewListButton = document.getElementById("addNewList");
-var newListTitleInput = document.getElementById("title");
 function fetchBoards() {
   fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getBoardApiUrl)(), {
     method: "GET",
@@ -2420,19 +2449,6 @@ function fetchBoards() {
     displayBoards(response.data);
   })["catch"](function (error) {
     return console.error("Error fetching boards:", error);
-  });
-}
-function deleteCard(cardId) {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getCardsByIdApiUrl)(cardId), {
-    method: "DELETE"
-  }).then(function (response) {
-    if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
-    var cardElement = document.getElementById("card-".concat(cardId));
-    if (cardElement) {
-      cardElement.remove();
-    }
-  })["catch"](function (error) {
-    return console.error("Error adding new list:", error);
   });
 }
 function fetchLists() {
@@ -2450,29 +2466,6 @@ function fetchLists() {
     return console.error("Error fetching lists:", error);
   });
 }
-function fetchCardsByList(listId) {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getCardsByListApiUrl)(listId)).then(function (response) {
-    return response.json();
-  }).then(function (response) {
-    displayCards(response.data, listId);
-  })["catch"](function (error) {
-    return console.error("Error fetching cards:", error);
-  });
-}
-function patchParentList(cardId, parentListId) {
-  var newParentList = {
-    card_list_id: parentListId
-  };
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getPatchParentListApiUrl)(cardId), {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(newParentList)
-  })["catch"](function (error) {
-    return console.error("Error fetching cards:", error);
-  });
-}
 function displayBoards(boards) {
   boards.forEach(function (currentBoard) {
     var boardElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardElement(currentBoard);
@@ -2483,17 +2476,10 @@ function displayLists(lists) {
   lists.forEach(function (currentList) {
     var newList = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createListElement(currentList);
     listsContainer.appendChild(newList);
-    var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardsContainerElement(currentList.id, patchParentList);
+    var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardsContainerElement(currentList.id, _CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.patchParentList);
     newList.appendChild(cardsContainerElement);
-    fetchCardsByList(currentList.id);
+    _CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.fetchCardsByList(currentList.id);
     displayAddNewCardForm(currentList.id, newList);
-  });
-}
-function displayCards(cards, parentcardContainerId) {
-  var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
-  cards.forEach(function (currentCard) {
-    var newCard = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardElement(currentCard, deleteCard);
-    cardsContainerElement.appendChild(newCard);
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {
@@ -2505,7 +2491,7 @@ function displayAddNewCardForm(currentListId, listElement) {
   });
 }
 addNewListButton.addEventListener("click", function () {
-  _ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.addNewList(fetchCardsByList, displayAddNewCardForm, patchParentList);
+  _ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.addNewList(_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.fetchCardsByList, displayAddNewCardForm, _CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.patchParentList);
 });
 document.addEventListener("DOMContentLoaded", function () {
   fetchBoards();
