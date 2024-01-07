@@ -1,6 +1,6 @@
-import { getCardListApiUrl } from "./apiConfig";
+import { getCardListApiUrl } from "../Util/apiConfig";
 import { CardClient } from "./CardClient";
-import { ElementBuilder } from "./ElementBuilder";
+import { ElementBuilder } from "../Util/ElementBuilder";
 
 const newListTitleInput = document.getElementById("title");
 

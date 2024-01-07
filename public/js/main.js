@@ -2054,10 +2054,10 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./resources/js/CardClient.js":
-/*!************************************!*\
-  !*** ./resources/js/CardClient.js ***!
-  \************************************/
+/***/ "./resources/js/Clients/CardClient.js":
+/*!********************************************!*\
+  !*** ./resources/js/Clients/CardClient.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2065,8 +2065,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   CardClient: () => (/* binding */ CardClient)
 /* harmony export */ });
-/* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
-/* harmony import */ var _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ElementBuilder */ "./resources/js/ElementBuilder.js");
+/* harmony import */ var _Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Util/apiConfig */ "./resources/js/Util/apiConfig.js");
+/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
@@ -2084,7 +2084,7 @@ var CardClient = /*#__PURE__*/function () {
     value: function addNewCard(listId) {
       var _this = this;
       var newCardTitleInput = document.getElementById("addCardTitleInput-".concat(listId));
-      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardApiUrl)(), {
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardApiUrl)(), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -2109,7 +2109,7 @@ var CardClient = /*#__PURE__*/function () {
     key: "fetchCardsByList",
     value: function fetchCardsByList(listId) {
       var _this2 = this;
-      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId), {
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByListApiUrl)(listId), {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -2129,14 +2129,14 @@ var CardClient = /*#__PURE__*/function () {
       var _this3 = this;
       var cardsContainerElement = document.getElementById("cardsContainer-".concat(parentcardContainerId));
       cards.forEach(function (currentCard) {
-        var newCard = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardElement(currentCard, _this3.deleteCard);
+        var newCard = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createCardElement(currentCard, _this3.deleteCard);
         cardsContainerElement.appendChild(newCard);
       });
     }
   }, {
     key: "deleteCard",
     value: function deleteCard(cardId) {
-      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByIdApiUrl)(cardId), {
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardsByIdApiUrl)(cardId), {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -2158,7 +2158,7 @@ var CardClient = /*#__PURE__*/function () {
       var newParentList = {
         card_list_id: parentListId
       };
-      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getPatchParentListApiUrl)(cardId), {
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getPatchParentListApiUrl)(cardId), {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json"
@@ -2174,10 +2174,99 @@ var CardClient = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./resources/js/ElementBuilder.js":
-/*!****************************************!*\
-  !*** ./resources/js/ElementBuilder.js ***!
-  \****************************************/
+/***/ "./resources/js/Clients/ListClient.js":
+/*!********************************************!*\
+  !*** ./resources/js/Clients/ListClient.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   ListClient: () => (/* binding */ ListClient)
+/* harmony export */ });
+/* harmony import */ var _Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Util/apiConfig */ "./resources/js/Util/apiConfig.js");
+/* harmony import */ var _CardClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CardClient */ "./resources/js/Clients/CardClient.js");
+/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+
+var newListTitleInput = document.getElementById("title");
+var ListClient = /*#__PURE__*/function () {
+  function ListClient() {
+    _classCallCheck(this, ListClient);
+  }
+  _createClass(ListClient, null, [{
+    key: "addNewList",
+    value: function addNewList(displayCardFormFunction) {
+      var _this = this;
+      var newList = {
+        title: newListTitleInput.value,
+        board_id: 1
+      };
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(newList)
+      }).then(function (response) {
+        if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
+        return response.json();
+      }).then(function (response) {
+        _this.displayLists([response.data], displayCardFormFunction);
+        newListTitleInput.value = "";
+      })["catch"](function (error) {
+        return console.error("Error adding new list:", error);
+      });
+    }
+  }, {
+    key: "fetchLists",
+    value: function fetchLists(displayCardFormFunction) {
+      var _this2 = this;
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        _this2.displayLists(response.data, displayCardFormFunction);
+      })["catch"](function (error) {
+        return console.error("Error fetching lists:", error);
+      });
+    }
+  }, {
+    key: "displayLists",
+    value: function displayLists(lists, displayCardFormFunction) {
+      lists.forEach(function (currentList) {
+        var newList = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createListElement(currentList);
+        listsContainer.appendChild(newList);
+        var cardsContainerElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createCardsContainerElement(currentList.id, _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.patchParentList);
+        newList.appendChild(cardsContainerElement);
+        _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.fetchCardsByList(currentList.id);
+        displayCardFormFunction(currentList.id, newList);
+      });
+    }
+  }]);
+  return ListClient;
+}();
+
+/***/ }),
+
+/***/ "./resources/js/Util/ElementBuilder.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Util/ElementBuilder.js ***!
+  \*********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2283,99 +2372,10 @@ var ElementBuilder = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./resources/js/ListClient.js":
-/*!************************************!*\
-  !*** ./resources/js/ListClient.js ***!
-  \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   ListClient: () => (/* binding */ ListClient)
-/* harmony export */ });
-/* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
-/* harmony import */ var _CardClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CardClient */ "./resources/js/CardClient.js");
-/* harmony import */ var _ElementBuilder__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ElementBuilder */ "./resources/js/ElementBuilder.js");
-function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
-function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
-
-
-
-var newListTitleInput = document.getElementById("title");
-var ListClient = /*#__PURE__*/function () {
-  function ListClient() {
-    _classCallCheck(this, ListClient);
-  }
-  _createClass(ListClient, null, [{
-    key: "addNewList",
-    value: function addNewList(displayCardFormFunction) {
-      var _this = this;
-      var newList = {
-        title: newListTitleInput.value,
-        board_id: 1
-      };
-      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(newList)
-      }).then(function (response) {
-        if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
-        return response.json();
-      }).then(function (response) {
-        _this.displayLists([response.data], displayCardFormFunction);
-        newListTitleInput.value = "";
-      })["catch"](function (error) {
-        return console.error("Error adding new list:", error);
-      });
-    }
-  }, {
-    key: "fetchLists",
-    value: function fetchLists(displayCardFormFunction) {
-      var _this2 = this;
-      fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        }
-      }).then(function (response) {
-        return response.json();
-      }).then(function (response) {
-        _this2.displayLists(response.data, displayCardFormFunction);
-      })["catch"](function (error) {
-        return console.error("Error fetching lists:", error);
-      });
-    }
-  }, {
-    key: "displayLists",
-    value: function displayLists(lists, displayCardFormFunction) {
-      lists.forEach(function (currentList) {
-        var newList = _ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createListElement(currentList);
-        listsContainer.appendChild(newList);
-        var cardsContainerElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createCardsContainerElement(currentList.id, _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.patchParentList);
-        newList.appendChild(cardsContainerElement);
-        _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.fetchCardsByList(currentList.id);
-        displayCardFormFunction(currentList.id, newList);
-      });
-    }
-  }]);
-  return ListClient;
-}();
-
-/***/ }),
-
-/***/ "./resources/js/apiConfig.js":
-/*!***********************************!*\
-  !*** ./resources/js/apiConfig.js ***!
-  \***********************************/
+/***/ "./resources/js/Util/apiConfig.js":
+/*!****************************************!*\
+  !*** ./resources/js/Util/apiConfig.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -2454,20 +2454,19 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _CardClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CardClient */ "./resources/js/CardClient.js");
-/* harmony import */ var _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ElementBuilder */ "./resources/js/ElementBuilder.js");
-/* harmony import */ var _ListClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ListClient */ "./resources/js/ListClient.js");
-/* harmony import */ var _apiConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./apiConfig */ "./resources/js/apiConfig.js");
+/* harmony import */ var _Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/CardClient */ "./resources/js/Clients/CardClient.js");
+/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
+/* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
+/* harmony import */ var _Util_apiConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Util/apiConfig */ "./resources/js/Util/apiConfig.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 
-var listsContainer = document.getElementById("listsContainer");
 var boardsContainer = document.getElementById("boardsContainer");
 var addNewListButton = document.getElementById("addNewList");
 function fetchBoards() {
-  fetch((0,_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getBoardApiUrl)(), {
+  fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getBoardApiUrl)(), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -2483,24 +2482,24 @@ function fetchBoards() {
 }
 function displayBoards(boards) {
   boards.forEach(function (currentBoard) {
-    var boardElement = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardElement(currentBoard);
+    var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardElement(currentBoard);
     boardsContainer.appendChild(boardElement);
   });
 }
 function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = _ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createAddNewCardFormElement(currentListId);
+  var newCardForm = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createAddNewCardFormElement(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener("click", function () {
-    return _CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.addNewCard(currentListId);
+    return _Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.addNewCard(currentListId);
   });
 }
 addNewListButton.addEventListener("click", function () {
-  _ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.addNewList(displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.addNewList(displayAddNewCardForm);
 });
 document.addEventListener("DOMContentLoaded", function () {
   fetchBoards();
-  _ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.fetchLists(displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.fetchLists(displayAddNewCardForm);
 });
 
 /***/ }),

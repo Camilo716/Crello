@@ -3,8 +3,8 @@ import {
     getCardsByIdApiUrl,
     getCardsByListApiUrl,
     getPatchParentListApiUrl,
-} from "./apiConfig";
-import { ElementBuilder } from "./ElementBuilder";
+} from "../Util/apiConfig";
+import { ElementBuilder } from "../Util/ElementBuilder";
 
 export class CardClient {
     static addNewCard(listId) {

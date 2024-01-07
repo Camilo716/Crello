@@ -1,11 +1,10 @@
 require("./bootstrap");
 
-import { CardClient } from "./CardClient";
-import { ElementBuilder } from "./ElementBuilder";
-import { ListClient } from "./ListClient";
-import { getCardListApiUrl, getBoardApiUrl } from "./apiConfig";
+import { CardClient } from "./Clients/CardClient";
+import { ElementBuilder } from "./Util/ElementBuilder";
+import { ListClient } from "./Clients/ListClient";
+import { getBoardApiUrl } from "./Util/apiConfig";
 
-const listsContainer = document.getElementById("listsContainer");
 const boardsContainer = document.getElementById("boardsContainer");
 const addNewListButton = document.getElementById("addNewList");
 
