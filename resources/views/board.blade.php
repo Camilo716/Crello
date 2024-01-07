@@ -26,7 +26,6 @@
         <div class="navBoards">
             <div class='boardsContainer' id='boardsContainer'>
                 <!-- Boards will be dynamically added here -->
-
             </div>
             <div class=''>
                 <form action="POST" class="newBoardForm">

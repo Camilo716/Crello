@@ -1,6 +1,7 @@
 require("./bootstrap");
 
 import { ElementBuilder } from "./ElementBuilder";
+import { ListClient } from "./ListClient";
 import {
     getCardApiUrl,
     getCardListApiUrl,
@@ -14,31 +15,6 @@ const listsContainer = document.getElementById("listsContainer");
 const boardsContainer = document.getElementById("boardsContainer");
 const addNewListButton = document.getElementById("addNewList");
 const newListTitleInput = document.getElementById("title");
-
-function addNewList() {
-    let newList = {
-        title: newListTitleInput.value,
-        board_id: 1,
-    };
-
-    fetch(getCardListApiUrl(), {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newList),
-    })
-        .then((response) => {
-            if (!response.ok)
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            return response.json();
-        })
-        .then((response) => {
-            displayLists([response.data]);
-            newListTitleInput.value = "";
-        })
-        .catch((error) => console.error("Error adding new list:", error));
-}
 
 function fetchBoards() {
     fetch(getBoardApiUrl(), {
@@ -176,7 +152,14 @@ function displayAddNewCardForm(currentListId, listElement) {
     addCardButton.addEventListener("click", () => addNewCard(currentListId));
 }
 
-addNewListButton.addEventListener("click", addNewList);
+addNewListButton.addEventListener("click", function () {
+    ListClient.addNewList(
+        fetchCardsByList,
+        displayAddNewCardForm,
+        patchParentList
+    );
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     fetchBoards();
     fetchLists();
