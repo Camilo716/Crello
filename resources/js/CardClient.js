@@ -15,6 +15,7 @@ export class CardClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify({
                 title: newCardTitleInput.value,
@@ -35,7 +36,13 @@ export class CardClient {
     }
 
     static fetchCardsByList(listId) {
-        fetch(getCardsByListApiUrl(listId))
+        fetch(getCardsByListApiUrl(listId), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+        })
             .then((response) => response.json())
             .then((response) => {
                 this.displayCards(response.data, listId);
@@ -59,6 +66,10 @@ export class CardClient {
     static deleteCard(cardId) {
         fetch(getCardsByIdApiUrl(cardId), {
             method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
         })
             .then((response) => {
                 if (!response.ok)

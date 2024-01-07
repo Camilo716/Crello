@@ -5,11 +5,7 @@ import { ElementBuilder } from "./ElementBuilder";
 const newListTitleInput = document.getElementById("title");
 
 export class ListClient {
-    static addNewList(
-        fetchCardsByListsFunction,
-        displayCardFormFunction,
-        patchCardParentListFunction
-    ) {
+    static addNewList(displayCardFormFunction) {
         let newList = {
             title: newListTitleInput.value,
             board_id: 1,
@@ -19,6 +15,7 @@ export class ListClient {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
+                Accept: "application/json",
             },
             body: JSON.stringify(newList),
         })
@@ -28,23 +25,28 @@ export class ListClient {
                 return response.json();
             })
             .then((response) => {
-                this.displayLists(
-                    [response.data],
-                    fetchCardsByListsFunction,
-                    displayCardFormFunction,
-                    patchCardParentListFunction
-                );
+                this.displayLists([response.data], displayCardFormFunction);
                 newListTitleInput.value = "";
             })
             .catch((error) => console.error("Error adding new list:", error));
     }
 
-    static displayLists(
-        lists,
-        fetchCardsByListsFunction,
-        displayCardFormFunction,
-        patchCardParentListFunction
-    ) {
+    static fetchLists(displayCardFormFunction) {
+        fetch(getCardListApiUrl(), {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+        })
+            .then((response) => response.json())
+            .then((response) => {
+                this.displayLists(response.data, displayCardFormFunction);
+            })
+            .catch((error) => console.error("Error fetching lists:", error));
+    }
+
+    static displayLists(lists, displayCardFormFunction) {
         lists.forEach((currentList) => {
             let newList = ElementBuilder.createListElement(currentList);
             listsContainer.appendChild(newList);
@@ -52,11 +54,11 @@ export class ListClient {
             let cardsContainerElement =
                 ElementBuilder.createCardsContainerElement(
                     currentList.id,
-                    patchCardParentListFunction
+                    CardClient.patchParentList
                 );
             newList.appendChild(cardsContainerElement);
 
-            fetchCardsByListsFunction(currentList.id);
+            CardClient.fetchCardsByList(currentList.id);
             displayCardFormFunction(currentList.id, newList);
         });
     }
