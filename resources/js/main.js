@@ -1,34 +1,11 @@
 require("./bootstrap");
 
 import { CardClient } from "./Clients/CardClient";
-import { ElementBuilder } from "./Util/ElementBuilder";
 import { ListClient } from "./Clients/ListClient";
-import { getBoardApiUrl } from "./Util/apiConfig";
+import { BoardClient } from "./Clients/BoardClient";
+import { ElementBuilder } from "./Util/ElementBuilder";
 
-const boardsContainer = document.getElementById("boardsContainer");
 const addNewListButton = document.getElementById("addNewList");
-
-function fetchBoards() {
-    fetch(getBoardApiUrl(), {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-        },
-    })
-        .then((response) => response.json())
-        .then((response) => {
-            displayBoards(response.data);
-        })
-        .catch((error) => console.error("Error fetching boards:", error));
-}
-
-function displayBoards(boards) {
-    boards.forEach((currentBoard) => {
-        let boardElement = ElementBuilder.createBoardElement(currentBoard);
-        boardsContainer.appendChild(boardElement);
-    });
-}
 
 function displayAddNewCardForm(currentListId, listElement) {
     let newCardForm = ElementBuilder.createAddNewCardFormElement(currentListId);
@@ -47,6 +24,6 @@ addNewListButton.addEventListener("click", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    fetchBoards();
+    BoardClient.fetchBoards();
     ListClient.fetchLists(displayAddNewCardForm);
 });

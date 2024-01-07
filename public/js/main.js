@@ -2054,6 +2054,64 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./resources/js/Clients/BoardClient.js":
+/*!*********************************************!*\
+  !*** ./resources/js/Clients/BoardClient.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BoardClient: () => (/* binding */ BoardClient)
+/* harmony export */ });
+/* harmony import */ var _Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Util/apiConfig */ "./resources/js/Util/apiConfig.js");
+/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
+var boardsContainer = document.getElementById("boardsContainer");
+var BoardClient = /*#__PURE__*/function () {
+  function BoardClient() {
+    _classCallCheck(this, BoardClient);
+  }
+  _createClass(BoardClient, null, [{
+    key: "fetchBoards",
+    value: function fetchBoards() {
+      var _this = this;
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        }
+      }).then(function (response) {
+        return response.json();
+      }).then(function (response) {
+        _this.displayBoards(response.data);
+      })["catch"](function (error) {
+        return console.error("Error fetching boards:", error);
+      });
+    }
+  }, {
+    key: "displayBoards",
+    value: function displayBoards(boards) {
+      boards.forEach(function (currentBoard) {
+        var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardElement(currentBoard);
+        boardsContainer.appendChild(boardElement);
+      });
+    }
+  }]);
+  return BoardClient;
+}();
+
+/***/ }),
+
 /***/ "./resources/js/Clients/CardClient.js":
 /*!********************************************!*\
   !*** ./resources/js/Clients/CardClient.js ***!
@@ -2455,39 +2513,17 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/CardClient */ "./resources/js/Clients/CardClient.js");
-/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
-/* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
-/* harmony import */ var _Util_apiConfig__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Util/apiConfig */ "./resources/js/Util/apiConfig.js");
+/* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
+/* harmony import */ var _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clients/BoardClient */ "./resources/js/Clients/BoardClient.js");
+/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 
-var boardsContainer = document.getElementById("boardsContainer");
 var addNewListButton = document.getElementById("addNewList");
-function fetchBoards() {
-  fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_3__.getBoardApiUrl)(), {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    }
-  }).then(function (response) {
-    return response.json();
-  }).then(function (response) {
-    displayBoards(response.data);
-  })["catch"](function (error) {
-    return console.error("Error fetching boards:", error);
-  });
-}
-function displayBoards(boards) {
-  boards.forEach(function (currentBoard) {
-    var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardElement(currentBoard);
-    boardsContainer.appendChild(boardElement);
-  });
-}
 function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createAddNewCardFormElement(currentListId);
+  var newCardForm = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_3__.ElementBuilder.createAddNewCardFormElement(currentListId);
   listElement.appendChild(newCardForm);
   var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
   addCardButton.addEventListener("click", function () {
@@ -2495,11 +2531,11 @@ function displayAddNewCardForm(currentListId, listElement) {
   });
 }
 addNewListButton.addEventListener("click", function () {
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.addNewList(displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList(displayAddNewCardForm);
 });
 document.addEventListener("DOMContentLoaded", function () {
-  fetchBoards();
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.fetchLists(displayAddNewCardForm);
+  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.fetchBoards();
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists(displayAddNewCardForm);
 });
 
 /***/ }),
