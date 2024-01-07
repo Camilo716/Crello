@@ -93,4 +93,17 @@ export class CardClient {
             body: JSON.stringify(newParentList),
         }).catch((error) => console.error("Error fetching cards:", error));
     }
+
+    static displayAddNewCardForm(currentListId, listElement) {
+        let newCardForm =
+            ElementBuilder.createAddNewCardFormElement(currentListId);
+        listElement.appendChild(newCardForm);
+
+        let addCardButton = document.getElementById(
+            `addCardButton-${currentListId}`
+        );
+        addCardButton.addEventListener("click", () =>
+            CardClient.addNewCard(currentListId)
+        );
+    }
 }

@@ -2226,6 +2226,16 @@ var CardClient = /*#__PURE__*/function () {
         return console.error("Error fetching cards:", error);
       });
     }
+  }, {
+    key: "displayAddNewCardForm",
+    value: function displayAddNewCardForm(currentListId, listElement) {
+      var newCardForm = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createAddNewCardFormElement(currentListId);
+      listElement.appendChild(newCardForm);
+      var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
+      addCardButton.addEventListener("click", function () {
+        return CardClient.addNewCard(currentListId);
+      });
+    }
   }]);
   return CardClient;
 }();
@@ -2515,27 +2525,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/CardClient */ "./resources/js/Clients/CardClient.js");
 /* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
 /* harmony import */ var _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clients/BoardClient */ "./resources/js/Clients/BoardClient.js");
-/* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
-
 var addNewListButton = document.getElementById("addNewList");
-function displayAddNewCardForm(currentListId, listElement) {
-  var newCardForm = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_3__.ElementBuilder.createAddNewCardFormElement(currentListId);
-  listElement.appendChild(newCardForm);
-  var addCardButton = document.getElementById("addCardButton-".concat(currentListId));
-  addCardButton.addEventListener("click", function () {
-    return _Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.addNewCard(currentListId);
-  });
-}
 addNewListButton.addEventListener("click", function () {
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList(displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
 });
 document.addEventListener("DOMContentLoaded", function () {
   _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.fetchBoards();
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists(displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
 });
 
 /***/ }),
