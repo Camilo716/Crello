@@ -4,6 +4,29 @@ import { ElementBuilder } from "../Util/ElementBuilder";
 const boardsContainer = document.getElementById("boardsContainer");
 
 export class BoardClient {
+    static AddNewBoard() {
+        const newBoardNameInput = document.getElementById("boardNameInput");
+
+        fetch(getBoardApiUrl(), {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+            body: JSON.stringify({ name: newBoardNameInput.value }),
+        })
+            .then((response) => {
+                if (!response.ok)
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                return response.json();
+            })
+            .then((response) => {
+                this.displayBoards([response.data]);
+                newBoardNameInput.value = "";
+            })
+            .catch((error) => console.error("Error adding new board:", error));
+    }
+
     static fetchBoards() {
         fetch(getBoardApiUrl(), {
             method: "GET",

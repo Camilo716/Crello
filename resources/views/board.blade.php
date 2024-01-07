@@ -30,7 +30,7 @@
             <div class=''>
                 <form action="POST" class="newBoardForm">
                     @csrf
-                    <input type="text" required placeholder="Enter board title..." id="board-title"
+                    <input type="text" required placeholder="Enter board title..." id="boardNameInput"
                         class="formInput"></input>
                     <button id="addNewBoardButton" class="addNewList" type="button">Add Board</button>
                 </form>

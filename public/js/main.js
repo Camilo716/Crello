@@ -2081,9 +2081,33 @@ var BoardClient = /*#__PURE__*/function () {
     _classCallCheck(this, BoardClient);
   }
   _createClass(BoardClient, null, [{
+    key: "AddNewBoard",
+    value: function AddNewBoard() {
+      var _this = this;
+      var newBoardNameInput = document.getElementById("boardNameInput");
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)(), {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: newBoardNameInput.value
+        })
+      }).then(function (response) {
+        if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
+        return response.json();
+      }).then(function (response) {
+        _this.displayBoards([response.data]);
+        newBoardNameInput.value = "";
+      })["catch"](function (error) {
+        return console.error("Error adding new board:", error);
+      });
+    }
+  }, {
     key: "fetchBoards",
     value: function fetchBoards() {
-      var _this = this;
+      var _this2 = this;
       fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getBoardApiUrl)(), {
         method: "GET",
         headers: {
@@ -2093,7 +2117,7 @@ var BoardClient = /*#__PURE__*/function () {
       }).then(function (response) {
         return response.json();
       }).then(function (response) {
-        _this.displayBoards(response.data);
+        _this2.displayBoards(response.data);
       })["catch"](function (error) {
         return console.error("Error fetching boards:", error);
       });
@@ -2530,12 +2554,16 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 var addNewListButton = document.getElementById("addNewList");
-addNewListButton.addEventListener("click", function () {
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
-});
+var addNewBoardButton = document.getElementById("addNewBoardButton");
 document.addEventListener("DOMContentLoaded", function () {
   _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.fetchBoards();
   _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
+});
+addNewListButton.addEventListener("click", function () {
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
+});
+addNewBoardButton.addEventListener("click", function () {
+  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.AddNewBoard();
 });
 
 /***/ }),
