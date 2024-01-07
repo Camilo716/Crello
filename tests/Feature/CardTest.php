@@ -28,8 +28,8 @@ class CardTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonStructure([
             'data' => [
-                'id', 'title', 'content', 'card_list_id'
-            ]
+                'id', 'title', 'content', 'card_list_id',
+            ],
         ]);
         $this->assertDatabaseHas('cards', $card);
     }
