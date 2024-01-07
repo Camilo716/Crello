@@ -1,5 +1,6 @@
 require("./bootstrap");
 
+import { CardClient } from "./CardClient";
 import { ElementBuilder } from "./ElementBuilder";
 import { ListClient } from "./ListClient";
 import {
@@ -29,33 +30,6 @@ function fetchBoards() {
             displayBoards(response.data);
         })
         .catch((error) => console.error("Error fetching boards:", error));
-}
-
-function addNewCard(listId) {
-    const newCardTitleInput = document.getElementById(
-        `addCardTitleInput-${listId}`
-    );
-    fetch(getCardApiUrl(), {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            title: newCardTitleInput.value,
-            content: "",
-            card_list_id: listId,
-        }),
-    })
-        .then((response) => {
-            if (!response.ok)
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            return response.json();
-        })
-        .then((response) => {
-            displayCards([response.data], listId);
-            newCardTitleInput.value = "";
-        })
-        .catch((error) => console.error("Error adding new list:", error));
 }
 
 function deleteCard(cardId) {
@@ -149,7 +123,9 @@ function displayAddNewCardForm(currentListId, listElement) {
     let addCardButton = document.getElementById(
         `addCardButton-${currentListId}`
     );
-    addCardButton.addEventListener("click", () => addNewCard(currentListId));
+    addCardButton.addEventListener("click", () =>
+        CardClient.addNewCard(currentListId)
+    );
 }
 
 addNewListButton.addEventListener("click", function () {
