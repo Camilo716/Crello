@@ -1,6 +1,5 @@
 require("./bootstrap");
 
-import { CardClient } from "./Clients/CardClient";
 import { ListClient } from "./Clients/ListClient";
 import { BoardClient } from "./Clients/BoardClient";
 
@@ -9,7 +8,6 @@ const addNewBoardButton = document.getElementById("addNewBoardButton");
 
 document.addEventListener("DOMContentLoaded", function () {
     BoardClient.fetchBoards();
-    ListClient.fetchLists();
 });
 
 addNewListButton.addEventListener("click", function () {

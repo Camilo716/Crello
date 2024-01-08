@@ -2067,12 +2067,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Util/apiConfig */ "./resources/js/Util/apiConfig.js");
 /* harmony import */ var _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Util/ElementBuilder */ "./resources/js/Util/ElementBuilder.js");
+/* harmony import */ var _ListClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ListClient */ "./resources/js/Clients/ListClient.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : String(i); }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 var boardsContainer = document.getElementById("boardsContainer");
@@ -2125,10 +2127,21 @@ var BoardClient = /*#__PURE__*/function () {
   }, {
     key: "displayBoards",
     value: function displayBoards(boards) {
+      var _this3 = this;
       boards.forEach(function (currentBoard) {
         var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardButtonElement(currentBoard);
+        boardElement.addEventListener("click", function () {
+          return _this3._displayListsInABoard(currentBoard.id);
+        });
         boardsContainer.appendChild(boardElement);
       });
+    }
+  }, {
+    key: "_displayListsInABoard",
+    value: function _displayListsInABoard(boardId) {
+      var listsContainer = document.getElementById("listsContainer");
+      listsContainer.innerHTML = "";
+      _ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.fetchListsByBoard(boardId);
     }
   }]);
   return BoardClient;
@@ -2290,6 +2303,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 var newListTitleInput = document.getElementById("title");
+var restHeaders = {
+  "Content-Type": "application/json",
+  Accept: "application/json"
+};
 var ListClient = /*#__PURE__*/function () {
   function ListClient() {
     _classCallCheck(this, ListClient);
@@ -2304,10 +2321,7 @@ var ListClient = /*#__PURE__*/function () {
       };
       fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
+        headers: restHeaders,
         body: JSON.stringify(newList)
       }).then(function (response) {
         if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
@@ -2320,15 +2334,12 @@ var ListClient = /*#__PURE__*/function () {
       });
     }
   }, {
-    key: "fetchLists",
-    value: function fetchLists() {
+    key: "fetchListsByBoard",
+    value: function fetchListsByBoard(boardId) {
       var _this2 = this;
-      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
+      fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListsByBoardApiUrl)(boardId), {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        }
+        headers: restHeaders
       }).then(function (response) {
         return response.json();
       }).then(function (response) {
@@ -2477,6 +2488,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   getBoardApiUrl: () => (/* binding */ getBoardApiUrl),
 /* harmony export */   getCardApiUrl: () => (/* binding */ getCardApiUrl),
 /* harmony export */   getCardListApiUrl: () => (/* binding */ getCardListApiUrl),
+/* harmony export */   getCardListsByBoardApiUrl: () => (/* binding */ getCardListsByBoardApiUrl),
 /* harmony export */   getCardsByIdApiUrl: () => (/* binding */ getCardsByIdApiUrl),
 /* harmony export */   getCardsByListApiUrl: () => (/* binding */ getCardsByListApiUrl),
 /* harmony export */   getPatchParentListApiUrl: () => (/* binding */ getPatchParentListApiUrl)
@@ -2484,6 +2496,9 @@ __webpack_require__.r(__webpack_exports__);
 var BASE_API_URL = "http://127.0.0.1:8000/api";
 function getCardListApiUrl() {
   return "".concat(BASE_API_URL, "/card-list");
+}
+function getCardListsByBoardApiUrl(boardId) {
+  return "".concat(getCardListApiUrl(), "/get-by-board?board_id=").concat(boardId);
 }
 function getCardApiUrl() {
   return "".concat(BASE_API_URL, "/card");
@@ -2547,24 +2562,21 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/CardClient */ "./resources/js/Clients/CardClient.js");
-/* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
-/* harmony import */ var _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Clients/BoardClient */ "./resources/js/Clients/BoardClient.js");
+/* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
+/* harmony import */ var _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clients/BoardClient */ "./resources/js/Clients/BoardClient.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
 
 
 var addNewListButton = document.getElementById("addNewList");
 var addNewBoardButton = document.getElementById("addNewBoardButton");
 document.addEventListener("DOMContentLoaded", function () {
-  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.fetchBoards();
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists();
+  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_1__.BoardClient.fetchBoards();
 });
 addNewListButton.addEventListener("click", function () {
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList();
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_0__.ListClient.addNewList();
 });
 addNewBoardButton.addEventListener("click", function () {
-  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.AddNewBoard();
+  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_1__.BoardClient.AddNewBoard();
 });
 
 /***/ }),

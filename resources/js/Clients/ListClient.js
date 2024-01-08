@@ -1,8 +1,15 @@
-import { getCardListApiUrl } from "../Util/apiConfig";
+import {
+    getCardListApiUrl,
+    getCardListsByBoardApiUrl,
+} from "../Util/apiConfig";
 import { CardClient } from "./CardClient";
 import { ElementBuilder } from "../Util/ElementBuilder";
 
 const newListTitleInput = document.getElementById("title");
+const restHeaders = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+};
 
 export class ListClient {
     static addNewList() {
@@ -13,10 +20,7 @@ export class ListClient {
 
         fetch(getCardListApiUrl(), {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
+            headers: restHeaders,
             body: JSON.stringify(newList),
         })
             .then((response) => {
@@ -31,13 +35,10 @@ export class ListClient {
             .catch((error) => console.error("Error adding new list:", error));
     }
 
-    static fetchLists() {
-        fetch(getCardListApiUrl(), {
+    static fetchListsByBoard(boardId) {
+        fetch(getCardListsByBoardApiUrl(boardId), {
             method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
-            },
+            headers: restHeaders,
         })
             .then((response) => response.json())
             .then((response) => {

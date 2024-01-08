@@ -1,5 +1,6 @@
 import { getBoardApiUrl } from "../Util/apiConfig";
 import { ElementBuilder } from "../Util/ElementBuilder";
+import { ListClient } from "./ListClient";
 
 const boardsContainer = document.getElementById("boardsContainer");
 
@@ -46,7 +47,18 @@ export class BoardClient {
         boards.forEach((currentBoard) => {
             let boardElement =
                 ElementBuilder.createBoardButtonElement(currentBoard);
+
+            boardElement.addEventListener("click", () =>
+                this._displayListsInABoard(currentBoard.id)
+            );
+
             boardsContainer.appendChild(boardElement);
         });
+    }
+
+    static _displayListsInABoard(boardId) {
+        let listsContainer = document.getElementById("listsContainer");
+        listsContainer.innerHTML = "";
+        ListClient.fetchListsByBoard(boardId);
     }
 }

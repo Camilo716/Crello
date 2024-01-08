@@ -4,6 +4,10 @@ export function getCardListApiUrl() {
     return `${BASE_API_URL}/card-list`;
 }
 
+export function getCardListsByBoardApiUrl(boardId) {
+    return `${getCardListApiUrl()}/get-by-board?board_id=${boardId}`;
+}
+
 export function getCardApiUrl() {
     return `${BASE_API_URL}/card`;
 }
