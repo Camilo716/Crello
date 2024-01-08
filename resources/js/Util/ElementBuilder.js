@@ -17,6 +17,30 @@ export class ElementBuilder {
         return newList;
     }
 
+    static createListFormElement(parentBoardId) {
+        const newListForm = document.createElement("form");
+        newListForm.className = "newListForm";
+        newListForm.action = "POST";
+
+        const titleInput = document.createElement("input");
+        titleInput.type = "text";
+        titleInput.required = true;
+        titleInput.placeholder = "Enter list title...";
+        titleInput.id = "title";
+        titleInput.className = "formInput";
+
+        const addListButton = document.createElement("button");
+        addListButton.id = `addNewList-${parentBoardId}`;
+        addListButton.className = "smallButton";
+        addListButton.type = "button";
+        addListButton.textContent = "Add list";
+
+        newListForm.appendChild(titleInput);
+        newListForm.appendChild(addListButton);
+
+        return newListForm;
+    }
+
     static createCardsContainerElement(currentListId, patchParentListFunction) {
         let cardsContainerElement = document.createElement("div");
         cardsContainerElement.className = "cardsContainer";

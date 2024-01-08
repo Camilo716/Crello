@@ -2302,7 +2302,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
-var newListTitleInput = document.getElementById("title");
 var restHeaders = {
   "Content-Type": "application/json",
   Accept: "application/json"
@@ -2313,11 +2312,12 @@ var ListClient = /*#__PURE__*/function () {
   }
   _createClass(ListClient, null, [{
     key: "addNewList",
-    value: function addNewList() {
+    value: function addNewList(boardId) {
       var _this = this;
+      var newListTitleInput = document.getElementById("title");
       var newList = {
         title: newListTitleInput.value,
-        board_id: 1
+        board_id: boardId
       };
       fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
         method: "POST",
@@ -2351,6 +2351,7 @@ var ListClient = /*#__PURE__*/function () {
   }, {
     key: "displayLists",
     value: function displayLists(lists) {
+      var listsContainer = document.getElementById("listsContainer");
       lists.forEach(function (currentList) {
         var newList = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
@@ -2359,6 +2360,19 @@ var ListClient = /*#__PURE__*/function () {
         _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.fetchCardsByList(currentList.id);
         _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.displayAddNewCardForm(currentList.id, newList);
       });
+      this._displayNewListForm(lists[0].board_id);
+    }
+  }, {
+    key: "_displayNewListForm",
+    value: function _displayNewListForm(parentBoardId) {
+      var newListContainer = document.getElementById("newListContainer");
+      newListContainer.innerHTML = "";
+      var listFormElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createListFormElement(parentBoardId);
+      var submitButton = listFormElement.querySelector("#addNewList-".concat(parentBoardId));
+      submitButton.addEventListener("click", function () {
+        return ListClient.addNewList(parentBoardId);
+      });
+      newListContainer.appendChild(listFormElement);
     }
   }]);
   return ListClient;
@@ -2404,6 +2418,27 @@ var ElementBuilder = /*#__PURE__*/function () {
       newList.className = "list";
       newList.innerHTML = "<h2>".concat(currentList.title, "</h2>");
       return newList;
+    }
+  }, {
+    key: "createListFormElement",
+    value: function createListFormElement(parentBoardId) {
+      var newListForm = document.createElement("form");
+      newListForm.className = "newListForm";
+      newListForm.action = "POST";
+      var titleInput = document.createElement("input");
+      titleInput.type = "text";
+      titleInput.required = true;
+      titleInput.placeholder = "Enter list title...";
+      titleInput.id = "title";
+      titleInput.className = "formInput";
+      var addListButton = document.createElement("button");
+      addListButton.id = "addNewList-".concat(parentBoardId);
+      addListButton.className = "smallButton";
+      addListButton.type = "button";
+      addListButton.textContent = "Add list";
+      newListForm.appendChild(titleInput);
+      newListForm.appendChild(addListButton);
+      return newListForm;
     }
   }, {
     key: "createCardsContainerElement",
@@ -2562,21 +2597,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Clients_ListClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/ListClient */ "./resources/js/Clients/ListClient.js");
-/* harmony import */ var _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Clients/BoardClient */ "./resources/js/Clients/BoardClient.js");
+/* harmony import */ var _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Clients/BoardClient */ "./resources/js/Clients/BoardClient.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
 
 var addNewListButton = document.getElementById("addNewList");
 var addNewBoardButton = document.getElementById("addNewBoardButton");
 document.addEventListener("DOMContentLoaded", function () {
-  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_1__.BoardClient.fetchBoards();
-});
-addNewListButton.addEventListener("click", function () {
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_0__.ListClient.addNewList();
+  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_0__.BoardClient.fetchBoards();
 });
 addNewBoardButton.addEventListener("click", function () {
-  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_1__.BoardClient.AddNewBoard();
+  _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_0__.BoardClient.AddNewBoard();
 });
 
 /***/ }),

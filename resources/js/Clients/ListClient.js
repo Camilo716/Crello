@@ -5,17 +5,18 @@ import {
 import { CardClient } from "./CardClient";
 import { ElementBuilder } from "../Util/ElementBuilder";
 
-const newListTitleInput = document.getElementById("title");
 const restHeaders = {
     "Content-Type": "application/json",
     Accept: "application/json",
 };
 
 export class ListClient {
-    static addNewList() {
+    static addNewList(boardId) {
+        const newListTitleInput = document.getElementById("title");
+
         let newList = {
             title: newListTitleInput.value,
-            board_id: 1,
+            board_id: boardId,
         };
 
         fetch(getCardListApiUrl(), {
@@ -48,6 +49,7 @@ export class ListClient {
     }
 
     static displayLists(lists) {
+        const listsContainer = document.getElementById("listsContainer");
         lists.forEach((currentList) => {
             let newList = ElementBuilder.createListElement(currentList);
             listsContainer.appendChild(newList);
@@ -62,5 +64,24 @@ export class ListClient {
             CardClient.fetchCardsByList(currentList.id);
             CardClient.displayAddNewCardForm(currentList.id, newList);
         });
+
+        this._displayNewListForm(lists[0].board_id);
+    }
+
+    static _displayNewListForm(parentBoardId) {
+        const newListContainer = document.getElementById("newListContainer");
+        newListContainer.innerHTML = "";
+
+        const listFormElement =
+            ElementBuilder.createListFormElement(parentBoardId);
+
+        const submitButton = listFormElement.querySelector(
+            `#addNewList-${parentBoardId}`
+        );
+        submitButton.addEventListener("click", () =>
+            ListClient.addNewList(parentBoardId)
+        );
+
+        newListContainer.appendChild(listFormElement);
     }
 }

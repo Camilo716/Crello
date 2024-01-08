@@ -39,15 +39,10 @@
     </nav>
     <div class='container'>
         <div class='listsContainer' id='listsContainer'>
-            <!-- Lists and their cards will be dynamically added here -->
+            <!-- Lists and their cards will be dynamically added here depending of its parent board-->
         </div>
-        <div class='newListContainer'>
-            <form action="POST" class="newListForm">
-                @csrf
-                <input type="text" required placeholder="Enter list title..." id="title"
-                    class="formInput"></input>
-                <button id="addNewList" class="smallButton" type="button">Add list</button>
-            </form>
+        <div class='newListContainer' id="newListContainer">
+            <!-- List form will be dynamically added here depending of its parent board -->
         </div>
     </div>
 
