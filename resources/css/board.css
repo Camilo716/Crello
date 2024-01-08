@@ -141,7 +141,7 @@ nav {
     caret-color: #FFFFFF;
 }
 
-.addNewList {
+.smallButton {
     font-size: 16px;
     height: 3vh;
     width: 40%;
@@ -151,6 +151,11 @@ nav {
     cursor: pointer;
     border-radius: 4px;
     color: #1D2125
+}
+
+.smallButton:hover {
+    transition: 0.2s ease;
+    background-color: #85B8FF
 }
 
 .cardsContainer {
@@ -222,6 +227,11 @@ nav {
     cursor: pointer;
     border-radius: 4px;
     color: #1D2125;
+}
+
+.addNewCard:hover {
+    transition: 0.2s ease;
+    background-color: #85B8FF
 }
 
 .deleteCardButton {

@@ -32,7 +32,7 @@
                     @csrf
                     <input type="text" required placeholder="Enter board title..." id="boardNameInput"
                         class="formInput"></input>
-                    <button id="addNewBoardButton" class="addNewList" type="button">Add Board</button>
+                    <button id="addNewBoardButton" class="smallButton" type="button">Add Board</button>
                 </form>
             </div>
         </div>
@@ -46,7 +46,7 @@
                 @csrf
                 <input type="text" required placeholder="Enter list title..." id="title"
                     class="formInput"></input>
-                <button id="addNewList" class="addNewList" type="button">Add list</button>
+                <button id="addNewList" class="smallButton" type="button">Add list</button>
             </form>
         </div>
     </div>
