@@ -2126,7 +2126,7 @@ var BoardClient = /*#__PURE__*/function () {
     key: "displayBoards",
     value: function displayBoards(boards) {
       boards.forEach(function (currentBoard) {
-        var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardElement(currentBoard);
+        var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardButtonElement(currentBoard);
         boardsContainer.appendChild(boardElement);
       });
     }
@@ -2377,13 +2377,14 @@ var ElementBuilder = /*#__PURE__*/function () {
     _classCallCheck(this, ElementBuilder);
   }
   _createClass(ElementBuilder, null, [{
-    key: "createBoardElement",
-    value: function createBoardElement(board) {
-      var boardElement = document.createElement("div");
-      boardElement.className = "board";
-      boardElement.innerHTML = "<h1>".concat(board.name, "</h1>");
-      boardElement.id = "board-".concat(board.id);
-      return boardElement;
+    key: "createBoardButtonElement",
+    value: function createBoardButtonElement(board) {
+      var boardButtonElement = document.createElement("button");
+      boardButtonElement.className = "boardButton";
+      boardButtonElement.id = "boardButton-".concat(board.id);
+      var buttonText = document.createTextNode(board.name);
+      boardButtonElement.appendChild(buttonText);
+      return boardButtonElement;
     }
   }, {
     key: "createListElement",

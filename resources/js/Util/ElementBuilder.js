@@ -1,11 +1,13 @@
 export class ElementBuilder {
-    static createBoardElement(board) {
-        let boardElement = document.createElement("div");
-        boardElement.className = "board";
-        boardElement.innerHTML = `<h1>${board.name}</h1>`;
-        boardElement.id = `board-${board.id}`;
+    static createBoardButtonElement(board) {
+        let boardButtonElement = document.createElement("button");
+        boardButtonElement.className = "boardButton";
+        boardButtonElement.id = `boardButton-${board.id}`;
 
-        return boardElement;
+        let buttonText = document.createTextNode(board.name);
+        boardButtonElement.appendChild(buttonText);
+
+        return boardButtonElement;
     }
 
     static createListElement(currentList) {

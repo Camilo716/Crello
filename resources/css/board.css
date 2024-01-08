@@ -54,12 +54,19 @@ nav {
     gap: 20px;
 }
 
-.boards {
-    margin-left: 20px;
-    width: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: left;
+.boardButton {
+    color:#FFFFFF;
+    font-size: 20px;
+    background-color: transparent;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.boardButton:hover {
+    transition: 0.2s ease;
+    background-color: #333C43;
 }
 
 .boardsContainer {

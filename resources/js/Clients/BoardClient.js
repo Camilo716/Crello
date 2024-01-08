@@ -44,7 +44,8 @@ export class BoardClient {
 
     static displayBoards(boards) {
         boards.forEach((currentBoard) => {
-            let boardElement = ElementBuilder.createBoardElement(currentBoard);
+            let boardElement =
+                ElementBuilder.createBoardButtonElement(currentBoard);
             boardsContainer.appendChild(boardElement);
         });
     }
