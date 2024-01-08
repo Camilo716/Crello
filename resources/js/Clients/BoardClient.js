@@ -48,8 +48,12 @@ export class BoardClient {
             let boardElement =
                 ElementBuilder.createBoardButtonElement(currentBoard);
 
-            boardElement.addEventListener("click", () =>
-                this._displayListsInABoard(currentBoard.id)
+            boardElement.addEventListener(
+                "click",
+                function () {
+                    this._displayListsInABoard(currentBoard.id);
+                    this._applySelectedBoardStyles(boardElement);
+                }.bind(this)
             );
 
             boardsContainer.appendChild(boardElement);
@@ -60,5 +64,14 @@ export class BoardClient {
         let listsContainer = document.getElementById("listsContainer");
         listsContainer.innerHTML = "";
         ListClient.fetchListsByBoard(boardId);
+    }
+
+    static _applySelectedBoardStyles(boardElement) {
+        const pastSelected = boardsContainer.querySelector(".selectedBoard");
+        if (pastSelected) {
+            pastSelected.classList.remove("selectedBoard");
+        }
+
+        boardElement.classList.add("selectedBoard");
     }
 }

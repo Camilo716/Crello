@@ -2131,8 +2131,9 @@ var BoardClient = /*#__PURE__*/function () {
       boards.forEach(function (currentBoard) {
         var boardElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_1__.ElementBuilder.createBoardButtonElement(currentBoard);
         boardElement.addEventListener("click", function () {
-          return _this3._displayListsInABoard(currentBoard.id);
-        });
+          this._displayListsInABoard(currentBoard.id);
+          this._applySelectedBoardStyles(boardElement);
+        }.bind(_this3));
         boardsContainer.appendChild(boardElement);
       });
     }
@@ -2142,6 +2143,15 @@ var BoardClient = /*#__PURE__*/function () {
       var listsContainer = document.getElementById("listsContainer");
       listsContainer.innerHTML = "";
       _ListClient__WEBPACK_IMPORTED_MODULE_2__.ListClient.fetchListsByBoard(boardId);
+    }
+  }, {
+    key: "_applySelectedBoardStyles",
+    value: function _applySelectedBoardStyles(boardElement) {
+      var pastSelected = boardsContainer.querySelector(".selectedBoard");
+      if (pastSelected) {
+        pastSelected.classList.remove("selectedBoard");
+      }
+      boardElement.classList.add("selectedBoard");
     }
   }]);
   return BoardClient;
