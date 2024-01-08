@@ -5,7 +5,7 @@ import { ElementBuilder } from "../Util/ElementBuilder";
 const newListTitleInput = document.getElementById("title");
 
 export class ListClient {
-    static addNewList(displayCardFormFunction) {
+    static addNewList() {
         let newList = {
             title: newListTitleInput.value,
             board_id: 1,
@@ -25,13 +25,13 @@ export class ListClient {
                 return response.json();
             })
             .then((response) => {
-                this.displayLists([response.data], displayCardFormFunction);
+                this.displayLists([response.data]);
                 newListTitleInput.value = "";
             })
             .catch((error) => console.error("Error adding new list:", error));
     }
 
-    static fetchLists(displayCardFormFunction) {
+    static fetchLists() {
         fetch(getCardListApiUrl(), {
             method: "GET",
             headers: {
@@ -41,12 +41,12 @@ export class ListClient {
         })
             .then((response) => response.json())
             .then((response) => {
-                this.displayLists(response.data, displayCardFormFunction);
+                this.displayLists(response.data);
             })
             .catch((error) => console.error("Error fetching lists:", error));
     }
 
-    static displayLists(lists, displayCardFormFunction) {
+    static displayLists(lists) {
         lists.forEach((currentList) => {
             let newList = ElementBuilder.createListElement(currentList);
             listsContainer.appendChild(newList);
@@ -59,7 +59,7 @@ export class ListClient {
             newList.appendChild(cardsContainerElement);
 
             CardClient.fetchCardsByList(currentList.id);
-            displayCardFormFunction(currentList.id, newList);
+            CardClient.displayAddNewCardForm(currentList.id, newList);
         });
     }
 }

@@ -9,11 +9,11 @@ const addNewBoardButton = document.getElementById("addNewBoardButton");
 
 document.addEventListener("DOMContentLoaded", function () {
     BoardClient.fetchBoards();
-    ListClient.fetchLists(CardClient.displayAddNewCardForm);
+    ListClient.fetchLists();
 });
 
 addNewListButton.addEventListener("click", function () {
-    ListClient.addNewList(CardClient.displayAddNewCardForm);
+    ListClient.addNewList();
 });
 
 addNewBoardButton.addEventListener("click", function () {

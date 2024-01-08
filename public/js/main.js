@@ -2296,7 +2296,7 @@ var ListClient = /*#__PURE__*/function () {
   }
   _createClass(ListClient, null, [{
     key: "addNewList",
-    value: function addNewList(displayCardFormFunction) {
+    value: function addNewList() {
       var _this = this;
       var newList = {
         title: newListTitleInput.value,
@@ -2313,7 +2313,7 @@ var ListClient = /*#__PURE__*/function () {
         if (!response.ok) throw new Error("HTTP error! Status: ".concat(response.status));
         return response.json();
       }).then(function (response) {
-        _this.displayLists([response.data], displayCardFormFunction);
+        _this.displayLists([response.data]);
         newListTitleInput.value = "";
       })["catch"](function (error) {
         return console.error("Error adding new list:", error);
@@ -2321,7 +2321,7 @@ var ListClient = /*#__PURE__*/function () {
     }
   }, {
     key: "fetchLists",
-    value: function fetchLists(displayCardFormFunction) {
+    value: function fetchLists() {
       var _this2 = this;
       fetch((0,_Util_apiConfig__WEBPACK_IMPORTED_MODULE_0__.getCardListApiUrl)(), {
         method: "GET",
@@ -2332,21 +2332,21 @@ var ListClient = /*#__PURE__*/function () {
       }).then(function (response) {
         return response.json();
       }).then(function (response) {
-        _this2.displayLists(response.data, displayCardFormFunction);
+        _this2.displayLists(response.data);
       })["catch"](function (error) {
         return console.error("Error fetching lists:", error);
       });
     }
   }, {
     key: "displayLists",
-    value: function displayLists(lists, displayCardFormFunction) {
+    value: function displayLists(lists) {
       lists.forEach(function (currentList) {
         var newList = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createListElement(currentList);
         listsContainer.appendChild(newList);
         var cardsContainerElement = _Util_ElementBuilder__WEBPACK_IMPORTED_MODULE_2__.ElementBuilder.createCardsContainerElement(currentList.id, _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.patchParentList);
         newList.appendChild(cardsContainerElement);
         _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.fetchCardsByList(currentList.id);
-        displayCardFormFunction(currentList.id, newList);
+        _CardClient__WEBPACK_IMPORTED_MODULE_1__.CardClient.displayAddNewCardForm(currentList.id, newList);
       });
     }
   }]);
@@ -2557,10 +2557,10 @@ var addNewListButton = document.getElementById("addNewList");
 var addNewBoardButton = document.getElementById("addNewBoardButton");
 document.addEventListener("DOMContentLoaded", function () {
   _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.fetchBoards();
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.fetchLists();
 });
 addNewListButton.addEventListener("click", function () {
-  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList(_Clients_CardClient__WEBPACK_IMPORTED_MODULE_0__.CardClient.displayAddNewCardForm);
+  _Clients_ListClient__WEBPACK_IMPORTED_MODULE_1__.ListClient.addNewList();
 });
 addNewBoardButton.addEventListener("click", function () {
   _Clients_BoardClient__WEBPACK_IMPORTED_MODULE_2__.BoardClient.AddNewBoard();
