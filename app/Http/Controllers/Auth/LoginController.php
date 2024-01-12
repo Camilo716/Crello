@@ -14,7 +14,6 @@ class LoginController extends Controller
         $this->validateLogin($request);
 
         $isAuthenticated = Auth::attempt($request->only('email', 'password'));
-
         if ($isAuthenticated) {
             return response()->json([
                 'message' => 'successfully authenticated',
