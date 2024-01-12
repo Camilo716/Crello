@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateBoardRequest;
 use App\Models\Board;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BoardController extends Controller
@@ -15,8 +14,8 @@ class BoardController extends Controller
 
         return response()->json([
             'message' => 'Sucessfuly get all boards',
-            'data' => $boards],
-        Response::HTTP_OK);
+            'data' => $boards,
+        ], Response::HTTP_OK);
     }
 
     public function store(CreateBoardRequest $request)
@@ -27,7 +26,7 @@ class BoardController extends Controller
 
         return response()->json([
             'message' => 'B45oard created susccesfully',
-            'data' => $boardResponse->toArray()], 
-        Response::HTTP_CREATED);
+            'data' => $boardResponse->toArray(),
+        ], Response::HTTP_CREATED);
     }
 }

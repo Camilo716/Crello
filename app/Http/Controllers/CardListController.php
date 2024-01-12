@@ -9,13 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CardListController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $cardLists = CardList::all();
         return response()->json([
             'message' => 'Succesfully get',
-            'data' => $cardLists],
-            Response::HTTP_OK);
+            'data' => $cardLists,
+        ], Response::HTTP_OK);
     }
 
     public function store(CreateCardListRequest $request)
@@ -26,8 +26,8 @@ class CardListController extends Controller
 
         return response()->json([
             'message' => 'Card list created successfully',
-            'data' => $cardListResponse->toArray()],
-            Response::HTTP_CREATED);
+            'data' => $cardListResponse->toArray(),
+        ], Response::HTTP_CREATED);
     }
 
     public function getByBoard(Request $request)
@@ -38,7 +38,7 @@ class CardListController extends Controller
 
         return response()->json([
             'message' => 'Successfully get lists by board',
-            'data' => $lists],
-            Response::HTTP_OK);
+            'data' => $lists,
+        ], Response::HTTP_OK);
     }
 }

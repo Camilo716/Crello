@@ -18,8 +18,8 @@ class CardController extends Controller
 
         return response()->json([
             'message' => 'Card list created successfully',
-            'data' => $cardResponse->toArray()],
-            Response::HTTP_CREATED);
+            'data' => $cardResponse->toArray(),
+        ], Response::HTTP_CREATED);
     }
 
     public function update($id, CreateCardRequest $request)
@@ -30,8 +30,8 @@ class CardController extends Controller
 
         return response()->json([
             'message' => 'Card list created successfully',
-            'data' => $card->fresh()->toArray()],
-            Response::HTTP_OK);
+            'data' => $card->fresh()->toArray(),
+        ], Response::HTTP_OK);
     }
 
     public function destroy($id)
@@ -40,8 +40,8 @@ class CardController extends Controller
         $card->delete();
 
         return response()->json([
-            'message' => 'Card deleted successfully'],
-            Response::HTTP_NO_CONTENT);
+            'message' => 'Card deleted successfully',
+        ], Response::HTTP_NO_CONTENT);
     }
 
     public function patchParentList($id, PatchParentListRequest $request)
@@ -52,8 +52,8 @@ class CardController extends Controller
 
         return response()->json([
             'message' => 'Card list created successfully',
-            'data' => $card->refresh()->toArray()],
-            Response::HTTP_OK);
+            'data' => $card->refresh()->toArray(),
+        ], Response::HTTP_OK);
     }
 
     public function getByList(Request $request)
@@ -63,7 +63,7 @@ class CardController extends Controller
 
         return response()->json([
             'message' => 'Successfully get cards by list',
-            'data' => $cards],
-            Response::HTTP_OK);
+            'data' => $cards,
+        ], Response::HTTP_OK);
     }
 }
